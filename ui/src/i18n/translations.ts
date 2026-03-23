@@ -62,6 +62,13 @@ export const translations = {
     "agents.inactive": "未激活",
     "agents.noAgents": "还没有员工",
     "agents.noAgentsDesc": "添加你的第一个 AI 员工开始工作",
+    "agents.all": "全部",
+    "agents.error": "错误",
+    "agents.filters": "筛选",
+    "agents.showTerminated": "显示已终止",
+    "agents.newAgent": "新建员工",
+    "agents.noMatchFilter": "没有符合筛选条件的员工",
+    "agents.noOrgHierarchy": "未定义组织层级",
 
     // Issues
     "issues.title": "任务",
@@ -82,6 +89,18 @@ export const translations = {
     "goals.delete": "删除目标",
     "goals.noGoals": "暂无目标",
     "goals.noGoalsDesc": "设定你的第一个目标",
+
+    // Costs
+    "costs.title": "成本",
+    "costs.monthSpend": "本月支出",
+    "costs.monthBudget": "本月预算",
+    "costs.utilization": "预算使用率",
+
+    // Approvals
+    "approvals.title": "审批",
+    "approvals.pending": "待审批",
+    "approvals.approved": "已批准",
+    "approvals.rejected": "已拒绝",
 
     // Common
     "common.save": "保存",
@@ -110,6 +129,10 @@ export const translations = {
     "status.offline": "离线",
     "status.busy": "忙碌",
     "status.idle": "空闲",
+    "status.running": "运行中",
+    "status.paused": "已暂停",
+    "status.error": "错误",
+    "status.active": "活跃",
 
     // Errors
     "error.required": "此字段为必填",
