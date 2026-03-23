@@ -47,6 +47,7 @@ import { useCompany } from "./context/CompanyContext";
 import { useDialog } from "./context/DialogContext";
 import { loadLastInboxTab } from "./lib/inbox";
 import { shouldRedirectCompanylessRouteToOnboarding } from "./lib/onboarding-route";
+import { I18nProvider, useTranslation } from "./i18n";
 
 function BootstrapPendingPage({ hasActiveInvite = false }: { hasActiveInvite?: boolean }) {
   return (
@@ -299,7 +300,7 @@ function NoCompaniesStartPage() {
 
 export function App() {
   return (
-    <>
+    <I18nProvider initialLanguage="zh-CN">
       <Routes>
         <Route path="auth" element={<AuthPage />} />
         <Route path="board-claim/:token" element={<BoardClaimPage />} />
@@ -345,6 +346,6 @@ export function App() {
         </Route>
       </Routes>
       <OnboardingWizard />
-    </>
+    </I18nProvider>
   );
 }
