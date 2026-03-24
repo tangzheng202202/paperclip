@@ -771,6 +771,15 @@ export const translations = {
     "agentConfig.default": "默认",
     "agentConfig.selectModelRequired": "选择模型（必填）",
     "agentConfig.selectModel": "选择模型",
+
+    // IssuesList
+    "issuesList.all": "全部",
+    "issuesList.active": "活跃",
+    "issuesList.backlog": "待办",
+    "issuesList.done": "已完成",
+    "issuesList.filter": "筛选",
+    "issuesList.filters": "筛选",
+    "issuesList.searchAssignees": "搜索负责人...",
   },
 };
 

@@ -62,12 +62,25 @@ const defaultViewState: IssueViewState = {
   collapsedGroups: [],
 };
 
-const quickFilterPresets = [
+const QUICK_FILTER_PRESETS_EN = [
   { label: "All", statuses: [] as string[] },
   { label: "Active", statuses: ["todo", "in_progress", "in_review", "blocked"] },
   { label: "Backlog", statuses: ["backlog"] },
   { label: "Done", statuses: ["done", "cancelled"] },
 ];
+
+const QUICK_FILTER_PRESETS_ZH = [
+  { label: "全部", statuses: [] as string[] },
+  { label: "活跃", statuses: ["todo", "in_progress", "in_review", "blocked"] },
+  { label: "待办", statuses: ["backlog"] },
+  { label: "已完成", statuses: ["done", "cancelled"] },
+];
+
+type TranslationFn = (key: string) => string;
+
+function getQuickFilterPresets(t: TranslationFn) {
+  return t("issuesList.all") === "全部" ? QUICK_FILTER_PRESETS_ZH : QUICK_FILTER_PRESETS_EN;
+}
 
 function getViewState(key: string): IssueViewState {
   try {
@@ -366,7 +379,7 @@ export function IssuesList({
             <PopoverTrigger asChild>
               <Button variant="ghost" size="sm" className={`text-xs ${activeFilterCount > 0 ? "text-blue-600 dark:text-blue-400" : ""}`}>
                 <Filter className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
-                <span className="hidden sm:inline">{activeFilterCount > 0 ? `Filters: ${activeFilterCount}` : "Filter"}</span>
+                <span className="hidden sm:inline">{activeFilterCount > 0 ? `${t("issuesList.filters")}: ${activeFilterCount}` : t("issuesList.filter")}</span>
                 {activeFilterCount > 0 && (
                   <span className="sm:hidden text-[10px] font-medium ml-0.5">{activeFilterCount}</span>
                 )}
@@ -399,7 +412,7 @@ export function IssuesList({
                 <div className="space-y-1.5">
                   <span className="text-xs text-muted-foreground">快捷筛选</span>
                   <div className="flex flex-wrap gap-1.5">
-                    {quickFilterPresets.map((preset) => {
+                    {getQuickFilterPresets(t).map((preset) => {
                       const isActive = arraysEqual(viewState.statuses, preset.statuses);
                       return (
                         <button
@@ -780,7 +793,7 @@ export function IssuesList({
                         >
                           <input
                             className="mb-1 w-full border-b border-border bg-transparent px-2 py-1.5 text-xs outline-none placeholder:text-muted-foreground/50"
-                            placeholder="Search assignees..."
+                            placeholder={t("issuesList.searchAssignees")}
                             value={assigneeSearch}
                             onChange={(e) => setAssigneeSearch(e.target.value)}
                             autoFocus
