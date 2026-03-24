@@ -4,13 +4,7 @@ import { cn } from "../lib/utils";
 import { priorityColor, priorityColorDefault } from "../lib/status-colors";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-
-const priorityConfig: Record<string, { icon: typeof ArrowUp; color: string; label: string }> = {
-  critical: { icon: AlertTriangle, color: priorityColor.critical ?? priorityColorDefault, label: "Critical" },
-  high: { icon: ArrowUp, color: priorityColor.high ?? priorityColorDefault, label: "High" },
-  medium: { icon: Minus, color: priorityColor.medium ?? priorityColorDefault, label: "Medium" },
-  low: { icon: ArrowDown, color: priorityColor.low ?? priorityColorDefault, label: "Low" },
-};
+import { useTranslation } from "../i18n";
 
 const allPriorities = ["critical", "high", "medium", "low"];
 
@@ -22,8 +16,24 @@ interface PriorityIconProps {
 }
 
 export function PriorityIcon({ priority, onChange, className, showLabel }: PriorityIconProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const config = priorityConfig[priority] ?? priorityConfig.medium!;
+
+  const getPriorityConfig = (p: string) => {
+    const iconMap: Record<string, typeof ArrowUp> = {
+      critical: AlertTriangle,
+      high: ArrowUp,
+      medium: Minus,
+      low: ArrowDown,
+    };
+    return {
+      icon: iconMap[p] ?? Minus,
+      color: priorityColor[p as keyof typeof priorityColor] ?? priorityColorDefault,
+      label: t(`priority.${p}`) || p.charAt(0).toUpperCase() + p.slice(1),
+    };
+  };
+
+  const config = getPriorityConfig(priority);
   const Icon = config.icon;
 
   const icon = (
@@ -53,7 +63,7 @@ export function PriorityIcon({ priority, onChange, className, showLabel }: Prior
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="w-36 p-1" align="start">
         {allPriorities.map((p) => {
-          const c = priorityConfig[p]!;
+          const c = getPriorityConfig(p);
           const PIcon = c.icon;
           return (
             <Button

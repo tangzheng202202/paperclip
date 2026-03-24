@@ -481,6 +481,11 @@ export const translations = {
     "common.project": "项目",
     "common.model": "模型",
     "common.defaultModel": "默认模型",
+    "common.detail": "详情",
+    "common.loadingFailed": "加载失败",
+    "common.retry": "重试",
+    "common.loadingData": "加载数据中...",
+    "common.noDataAvailable": "暂无数据",
 
     // Status
     "status.online": "在线",
