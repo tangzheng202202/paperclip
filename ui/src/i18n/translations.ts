@@ -1025,6 +1025,16 @@ export const translations = {
     "approvalDetail.resubmitFailed": "重新提交失败",
     "approvalDetail.commentFailed": "评论失败",
     "approvalDetail.deleteFailed": "删除失败",
+
+    // OrgChart
+    "orgChart.title": "组织结构图",
+    "orgChart.selectCompany": "选择公司以查看组织结构图。",
+    "orgChart.noOrgHierarchy": "未定义组织层级。",
+    "orgChart.importCompany": "导入公司",
+    "orgChart.exportCompany": "导出公司",
+    "orgChart.zoomIn": "放大",
+    "orgChart.zoomOut": "缩小",
+    "orgChart.fitToScreen": "适应屏幕",
   },
 };
 
