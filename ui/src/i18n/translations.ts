@@ -987,6 +987,44 @@ export const translations = {
 
     // GoalTree
     "goalTree.noGoals": "暂无目标",
+
+    // Approvals Page
+    "approvals.all": "全部",
+    "approvals.noPendingApprovals": "暂无待审批项。",
+    "approvals.noApprovalsYet": "暂无审批记录。",
+    "approvals.selectCompanyFirst": "请先选择一个公司。",
+    "approvals.failedToApprove": "批准失败",
+    "approvals.failedToReject": "拒绝失败",
+
+    // ApprovalDetail Page
+    "approvalDetail.approvalNotFound": "未找到审批。",
+    "approvalDetail.approvalConfirmed": "审批已确认",
+    "approvalDetail.requestingAgentNotified": "请求代理已收到通知，请查看此审批和关联任务。",
+    "approvalDetail.reviewLinkedIssues": "查看关联任务",
+    "approvalDetail.reviewLinkedIssue": "查看关联任务",
+    "approvalDetail.openHiredAgent": "打开新员工",
+    "approvalDetail.backToApprovals": "返回审批列表",
+    "approvalDetail.requestedBy": "请求者",
+    "approvalDetail.seeFullRequest": "查看完整请求",
+    "approvalDetail.linkedIssues": "关联任务",
+    "approvalDetail.linkedIssuesNote": "关联任务将保持开放，直到请求代理跟进并关闭它们。",
+    "approvalDetail.resolveBudgetStop": "从 /costs 页面的预算控制中解决此预算停止。",
+    "approvalDetail.requestRevision": "请求修改",
+    "approvalDetail.markResubmitted": "标记为已重新提交",
+    "approvalDetail.deleteDisapprovedAgent": "删除未批准的员工",
+    "approvalDetail.deleteDisapprovedConfirm": "确定要删除此未批准的员工吗？此操作无法撤销。",
+    "approvalDetail.comments": "评论",
+    "approvalDetail.addComment": "添加评论...",
+    "approvalDetail.posting": "发布中...",
+    "approvalDetail.postComment": "发布评论",
+    "approvalDetail.approve": "批准",
+    "approvalDetail.reject": "拒绝",
+    "approvalDetail.approveFailed": "批准失败",
+    "approvalDetail.rejectFailed": "拒绝失败",
+    "approvalDetail.revisionFailed": "请求修改失败",
+    "approvalDetail.resubmitFailed": "重新提交失败",
+    "approvalDetail.commentFailed": "评论失败",
+    "approvalDetail.deleteFailed": "删除失败",
   },
 };
 
