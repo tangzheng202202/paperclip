@@ -123,18 +123,112 @@ export const translations = {
     "costs.monthSpend": "本月支出",
     "costs.monthBudget": "本月预算",
     "costs.utilization": "预算使用率",
+    "costs.totalSpend": "总支出",
+    "costs.totalBudget": "总预算",
+    "costs.spendByAgent": "按员工分类",
+    "costs.spendByProvider": "按提供商分类",
+    "costs.spendByTime": "按时间分类",
+    "costs.thisWeek": "本周",
+    "costs.thisMonth": "本月",
+    "costs.thisQuarter": "本季度",
+    "costs.unlimited": "无限预算",
+    "costs.ofBudget": "预算的",
 
     // Activity
     "activity.title": "活动",
+    "activity.noActivity": "暂无活动",
+    "activity.filterByType": "按类型筛选",
+    "activity.allTypes": "所有类型",
 
     // Approvals
     "approvals.title": "审批",
     "approvals.pending": "待审批",
     "approvals.approved": "已批准",
     "approvals.rejected": "已拒绝",
+    "approvals.noApprovals": "暂无审批",
 
     // Inbox
     "inbox.title": "收件箱",
+    "inbox.noMessages": "暂无消息",
+    "inbox.markAsRead": "标记为已读",
+    "inbox.markAllAsRead": "全部标为已读",
+    "inbox.recent": "最近",
+    "inbox.unread": "未读",
+    "inbox.all": "全部",
+    "inbox.category": "类别",
+    "inbox.allCategories": "所有类别",
+    "inbox.myRecentIssues": "我最近的任务",
+    "inbox.approvalStatus": "审批状态",
+    "inbox.allApprovalStatuses": "所有审批状态",
+    "inbox.needsAction": "需要处理",
+    "inbox.resolved": "已解决",
+    "inbox.noNewItems": "没有新的收件箱项目。",
+    "inbox.noRecentItems": "没有最近的收件箱项目。",
+    "inbox.noMatchingFilters": "没有符合这些筛选条件的收件箱项目。",
+    "inbox.joinRequests": "加入请求",
+    "inbox.humanJoinRequest": "人员加入请求",
+    "inbox.agentJoinRequest": "AI 员工加入请求",
+    "inbox.requested": "请求于",
+    "inbox.fromIp": "来自 IP",
+    "inbox.email": "邮箱：",
+    "inbox.adapter": "适配器：",
+    "inbox.alerts": "提醒",
+    "inbox.agentHasErrors": "有错误",
+    "inbox.agentsHaveErrors": "有错误",
+    "inbox.budgetAt": "预算达到",
+    "inbox.utilizationThisMonth": "本月使用率",
+    "inbox.live": "运行中",
+    "inbox.commented": "评论于",
+    "inbox.updated": "更新于",
+    "inbox.runError": "运行出错。",
+    "inbox.failedRun": "失败的运行",
+    "inbox.failedRuns": "失败的运行",
+    "inbox.retrying": "重试中...",
+    "inbox.retry": "重试",
+    "inbox.marking": "标记中...",
+    "inbox.selectCompanyToViewInbox": "选择公司以查看收件箱。",
+    "inbox.approve": "批准",
+    "inbox.reject": "拒绝",
+    "inbox.requestedBy": "由 {name} 请求",
+
+    // Skills
+    "skills.title": "技能",
+    "skills.create": "创建技能",
+    "skills.edit": "编辑技能",
+    "skills.delete": "删除技能",
+    "skills.noSkills": "暂无技能",
+    "skills.noSkillsDesc": "创建你的第一个技能",
+
+    // Settings
+    "settings.title": "设置",
+    "settings.general": "通用设置",
+    "settings.company": "公司设置",
+    "settings.instance": "实例设置",
+    "settings.plugins": "插件设置",
+    "settings.name": "名称",
+    "settings.description": "描述",
+    "settings.logo": "标志",
+    "settings.brandColor": "品牌颜色",
+    "settings.deleteCompany": "删除公司",
+    "settings.dangerZone": "危险区域",
+    "settings.dangerZoneDesc": "此操作不可逆，请谨慎操作",
+
+    // Org
+    "org.title": "组织结构",
+    "org.noOrg": "暂无组织结构",
+    "org.addEmployee": "添加员工",
+    "org.removeEmployee": "移除员工",
+    "org.moveEmployee": "移动员工",
+    "org.rootEmployee": "顶级员工",
+
+    // Select Company
+    "selectCompany.title": "选择公司",
+    "selectCompany.create": "创建新公司",
+    "selectCompany.noCompanies": "暂无公司",
+
+    // Empty States
+    "empty.selectCompany": "选择公司以查看内容",
+    "empty.noData": "暂无数据",
 
     // Common
     "common.save": "保存",
@@ -183,6 +277,31 @@ export const translations = {
     "status.active": "活跃",
     "status.todo": "待办",
     "status.blocked": "阻塞",
+
+    // Priority
+    "priority.critical": "紧急",
+    "priority.high": "高",
+    "priority.medium": "中",
+    "priority.low": "低",
+
+    // Project Status
+    "projectStatus.backlog": "待办",
+    "projectStatus.planned": "计划中",
+    "projectStatus.inProgress": "进行中",
+    "projectStatus.completed": "已完成",
+    "projectStatus.cancelled": "已取消",
+
+    // Goal Status
+    "goalStatus.planned": "计划中",
+    "goalStatus.active": "活跃",
+    "goalStatus.completed": "已完成",
+    "goalStatus.cancelled": "已取消",
+
+    // Goal Level
+    "goalLevel.company": "公司",
+    "goalLevel.team": "团队",
+    "goalLevel.agent": "员工",
+    "goalLevel.task": "任务",
 
     // Errors
     "error.required": "此字段为必填",
