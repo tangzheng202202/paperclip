@@ -22,6 +22,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { CircleDot, Plus, Filter, ArrowUpDown, Layers, Check, X, ChevronRight, List, Columns3, User, Search } from "lucide-react";
 import { KanbanBoard } from "./KanbanBoard";
+import { useTranslation } from "../i18n";
 import type { Issue } from "@paperclipai/shared";
 
 /* ── Helpers ── */
@@ -185,6 +186,7 @@ export function IssuesList({
   onSearchChange,
   onUpdateIssue,
 }: IssuesListProps) {
+  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const { openNewIssue } = useDialog();
   const { data: session } = useQuery({
@@ -323,7 +325,7 @@ export function IssuesList({
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <Button size="sm" variant="outline" onClick={() => openNewIssue(newIssueDefaults())}>
             <Plus className="h-4 w-4 sm:mr-1" />
-            <span className="hidden sm:inline">New Issue</span>
+            <span className="hidden sm:inline">{t("issues.create")}</span>
           </Button>
           <div className="relative w-48 sm:w-64 md:w-80">
             <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
@@ -333,9 +335,9 @@ export function IssuesList({
                 setIssueSearch(e.target.value);
                 onSearchChange?.(e.target.value);
               }}
-              placeholder="Search issues..."
+              placeholder={t("issues.searchPlaceholder")}
               className="pl-7 text-xs sm:text-sm"
-              aria-label="Search issues"
+              aria-label={t("issues.searchPlaceholder")}
             />
           </div>
         </div>
@@ -380,22 +382,22 @@ export function IssuesList({
               </Button>
             </PopoverTrigger>
             <PopoverContent align="end" className="w-[min(480px,calc(100vw-2rem))] p-0">
-              <div className="p-3 space-y-3">
+                <div className="p-3 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Filters</span>
+                  <span className="text-sm font-medium">{t("common.filter")}</span>
                   {activeFilterCount > 0 && (
                     <button
                       className="text-xs text-muted-foreground hover:text-foreground"
                       onClick={() => updateView({ statuses: [], priorities: [], assignees: [], labels: [] })}
                     >
-                      Clear
+                      清除
                     </button>
                   )}
                 </div>
 
                 {/* Quick filters */}
                 <div className="space-y-1.5">
-                  <span className="text-xs text-muted-foreground">Quick filters</span>
+                  <span className="text-xs text-muted-foreground">快捷筛选</span>
                   <div className="flex flex-wrap gap-1.5">
                     {quickFilterPresets.map((preset) => {
                       const isActive = arraysEqual(viewState.statuses, preset.statuses);
@@ -614,8 +616,8 @@ export function IssuesList({
       {!isLoading && filtered.length === 0 && viewState.viewMode === "list" && (
         <EmptyState
           icon={CircleDot}
-          message="No issues match the current filters or search."
-          action="Create Issue"
+          message={t("issues.noMatchFilters")}
+          action={t("issues.createIssue")}
           onAction={() => openNewIssue(newIssueDefaults())}
         />
       )}

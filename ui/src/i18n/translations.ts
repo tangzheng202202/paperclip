@@ -14,6 +14,8 @@ export const translations = {
     "nav.skills": "技能",
     "nav.org": "组织",
     "nav.plugins": "插件",
+    "nav.inbox": "收件箱",
+    "nav.activity": "活动",
 
     // Dashboard
     "dashboard.title": "仪表盘",
@@ -25,6 +27,9 @@ export const translations = {
     "dashboard.quickActions": "快捷操作",
     "dashboard.createIssue": "创建任务",
     "dashboard.inviteAgent": "邀请员工",
+    "dashboard.newIssue": "新建任务",
+    "dashboard.recentTasks": "最近任务",
+    "dashboard.noTasks": "暂无任务",
 
     // Onboarding
     "onboarding.welcome": "欢迎使用 Paperclip",
@@ -46,6 +51,10 @@ export const translations = {
     "onboarding.back": "返回",
     "onboarding.finish": "完成",
     "onboarding.skip": "跳过",
+    "onboarding.searchModels": "搜索模型...",
+    "onboarding.selectModel": "选择模型（必填）",
+    "onboarding.default": "默认",
+    "onboarding.noModels": "未发现模型",
 
     // Agents
     "agents.title": "员工",
@@ -81,6 +90,9 @@ export const translations = {
     "issues.canceled": "已取消",
     "issues.noIssues": "暂无任务",
     "issues.noIssuesDesc": "创建你的第一个任务",
+    "issues.searchPlaceholder": "搜索任务...",
+    "issues.noMatchFilters": "没有符合当前筛选条件或搜索的任务",
+    "issues.createIssue": "创建任务",
 
     // Goals
     "goals.title": "目标",
@@ -90,17 +102,39 @@ export const translations = {
     "goals.noGoals": "暂无目标",
     "goals.noGoalsDesc": "设定你的第一个目标",
 
+    // Projects
+    "projects.title": "项目",
+    "projects.create": "创建项目",
+    "projects.edit": "编辑项目",
+    "projects.delete": "删除项目",
+    "projects.noProjects": "暂无项目",
+    "projects.noProjectsDesc": "创建你的第一个项目",
+
+    // Routines
+    "routines.title": "流程",
+    "routines.create": "创建流程",
+    "routines.edit": "编辑流程",
+    "routines.delete": "删除流程",
+    "routines.noRoutines": "暂无流程",
+    "routines.noRoutinesDesc": "创建你的第一个流程",
+
     // Costs
     "costs.title": "成本",
     "costs.monthSpend": "本月支出",
     "costs.monthBudget": "本月预算",
     "costs.utilization": "预算使用率",
 
+    // Activity
+    "activity.title": "活动",
+
     // Approvals
     "approvals.title": "审批",
     "approvals.pending": "待审批",
     "approvals.approved": "已批准",
     "approvals.rejected": "已拒绝",
+
+    // Inbox
+    "inbox.title": "收件箱",
 
     // Common
     "common.save": "保存",
@@ -123,6 +157,20 @@ export const translations = {
     "common.previous": "上一步",
     "common.yes": "是",
     "common.no": "否",
+    "common.optional": "可选",
+    "common.selectCompany": "选择公司",
+    "common.selectAssignee": "选择负责人",
+    "common.selectProject": "选择项目",
+    "common.searchAssignees": "搜索负责人...",
+    "common.addDescription": "添加描述...",
+    "common.issueTitle": "任务标题",
+    "common.description": "描述",
+    "common.priority": "优先级",
+    "common.status": "状态",
+    "common.assignee": "负责人",
+    "common.project": "项目",
+    "common.model": "模型",
+    "common.defaultModel": "默认模型",
 
     // Status
     "status.online": "在线",
@@ -133,6 +181,8 @@ export const translations = {
     "status.paused": "已暂停",
     "status.error": "错误",
     "status.active": "活跃",
+    "status.todo": "待办",
+    "status.blocked": "阻塞",
 
     // Errors
     "error.required": "此字段为必填",
@@ -153,6 +203,13 @@ export const translations = {
     "opencode.setup.connectionSuccess": "连接成功！",
     "opencode.setup.connectionFailed": "连接失败",
     "opencode.setup.continue": "继续",
+
+    // Dialog
+    "dialog.newIssue": "新建任务",
+    "dialog.newProject": "新建项目",
+    "dialog.newGoal": "新建目标",
+    "dialog.newAgent": "新建员工",
+    "dialog.selectOption": "选择一个选项",
   },
 };
 
