@@ -45,6 +45,7 @@ import { MarkdownEditor } from "./MarkdownEditor";
 import { ChoosePathButton } from "./PathInstructionsModal";
 import { OpenCodeLogoIcon } from "./OpenCodeLogoIcon";
 import { shouldShowLegacyWorkingDirectoryField } from "../lib/legacy-agent-config";
+import { useTranslation } from "../i18n";
 
 /* ---- Create mode values ---- */
 
@@ -167,6 +168,7 @@ const claudeThinkingEffortOptions = [
 /* ---- Form ---- */
 
 export function AgentConfigForm(props: AgentConfigFormProps) {
+  const { t } = useTranslation();
   const { mode, adapterModels: externalModels } = props;
   const isCreate = mode === "create";
   const cards = props.sectionLayout === "cards";
@@ -185,7 +187,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
 
   const createSecret = useMutation({
     mutationFn: (input: { name: string; value: string }) => {
-      if (!selectedCompanyId) throw new Error("Select a company to create secrets");
+      if (!selectedCompanyId) throw new Error(t("agentConfig.selectCompanyToCreateSecrets"));
       return secretsApi.create(selectedCompanyId, input);
     },
     onSuccess: () => {
@@ -196,7 +198,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
 
   const uploadMarkdownImage = useMutation({
     mutationFn: async ({ file, namespace }: { file: File; namespace: string }) => {
-      if (!selectedCompanyId) throw new Error("Select a company to upload images");
+      if (!selectedCompanyId) throw new Error(t("agentConfig.selectCompanyToUploadImages"));
       return assetsApi.uploadImage(selectedCompanyId, file, namespace);
     },
   });
@@ -352,7 +354,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
   const testEnvironment = useMutation({
     mutationFn: async () => {
       if (!selectedCompanyId) {
-        throw new Error("Select a company to test adapter environment");
+        throw new Error(t("agentConfig.selectCompanyToTestAdapter"));
       }
       return agentsApi.testEnvironment(selectedCompanyId, adapterType, {
         adapterConfig: buildAdapterConfigForTest(),
@@ -430,7 +432,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
               onClick={handleSave}
               disabled={!isCreate && props.isSaving}
             >
-              {!isCreate && props.isSaving ? "Saving..." : "Save"}
+              {!isCreate && props.isSaving ? t("agentConfig.saving") : t("agentConfig.save")}
             </Button>
           </div>
         </div>
@@ -589,7 +591,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
           )}
 
           {testEnvironment.data && (
-            <AdapterEnvironmentResult result={testEnvironment.data} />
+            <AdapterEnvironmentResult result={testEnvironment.data} t={t} />
           )}
 
           {/* Working directory */}
@@ -696,12 +698,13 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                 allowDefault={adapterType !== "opencode_local"}
                 required={adapterType === "opencode_local"}
                 groupByProvider={adapterType === "opencode_local"}
+                t={t}
               />
               {fetchedModelsError && (
                 <p className="text-xs text-destructive">
                   {fetchedModelsError instanceof Error
                     ? fetchedModelsError.message
-                    : "Failed to load adapter models."}
+                    : t("agentConfig.failedToLoadModels")}
                 </p>
               )}
 
@@ -793,6 +796,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                       ? set!({ envBindings: env ?? {}, envVars: "" })
                       : mark("adapterConfig", "env", env)
                   }
+                  t={t}
                 />
               </Field>
 
@@ -923,9 +927,9 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
   );
 }
 
-function AdapterEnvironmentResult({ result }: { result: AdapterEnvironmentTestResult }) {
+function AdapterEnvironmentResult({ result, t }: { result: AdapterEnvironmentTestResult; t: ReturnType<typeof useTranslation>["t"] }) {
   const statusLabel =
-    result.status === "pass" ? "Passed" : result.status === "warn" ? "Warnings" : "Failed";
+    result.status === "pass" ? t("agentConfig.passed") : result.status === "warn" ? t("agentConfig.warnings") : t("agentConfig.failed");
   const statusClass =
     result.status === "pass"
       ? "text-green-700 dark:text-green-300 border-green-300 dark:border-green-500/40 bg-green-50 dark:bg-green-500/10"
@@ -1024,11 +1028,13 @@ function EnvVarEditor({
   secrets,
   onCreateSecret,
   onChange,
+  t,
 }: {
   value: Record<string, EnvBinding>;
   secrets: CompanySecret[];
   onCreateSecret: (name: string, value: string) => Promise<CompanySecret>;
   onChange: (env: Record<string, EnvBinding> | undefined) => void;
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   type Row = {
     key: string;
@@ -1170,7 +1176,7 @@ function EnvVarEditor({
         secretId: created.id,
       });
     } catch (err) {
-      setSealError(err instanceof Error ? err.message : "Failed to create secret");
+      setSealError(err instanceof Error ? err.message : t("agentConfig.failedToCreateSecret"));
     }
   }
 
@@ -1222,7 +1228,7 @@ function EnvVarEditor({
                   className="inline-flex items-center rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent/50 transition-colors shrink-0"
                   onClick={() => sealRow(i)}
                   disabled={!row.key.trim() || !row.plainValue}
-                  title="Create secret from current plain value"
+                  title={t("agentConfig.createSecretFromPlainValue")}
                 >
                   New
                 </button>
@@ -1277,6 +1283,7 @@ function ModelDropdown({
   allowDefault,
   required,
   groupByProvider,
+  t,
 }: {
   models: AdapterModel[];
   value: string;
@@ -1286,6 +1293,7 @@ function ModelDropdown({
   allowDefault: boolean;
   required: boolean;
   groupByProvider: boolean;
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   const [modelSearch, setModelSearch] = useState("");
   const selected = models.find((m) => m.id === value);
@@ -1339,15 +1347,15 @@ function ModelDropdown({
             <span className={cn(!value && "text-muted-foreground")}>
               {selected
                 ? selected.label
-                : value || (allowDefault ? "Default" : required ? "Select model (required)" : "Select model")}
+                : value || (allowDefault ? t("agentConfig.default") : required ? t("agentConfig.selectModelRequired") : t("agentConfig.selectModel"))}
             </span>
             <ChevronDown className="h-3 w-3 text-muted-foreground" />
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-1" align="start">
-          <input
+            <input
             className="w-full px-2 py-1.5 text-xs bg-transparent outline-none border-b border-border mb-1 placeholder:text-muted-foreground/50"
-            placeholder="Search models..."
+            placeholder={t("agentConfig.searchModels")}
             value={modelSearch}
             onChange={(e) => setModelSearch(e.target.value)}
             autoFocus
@@ -1394,7 +1402,7 @@ function ModelDropdown({
               </div>
             ))}
             {filteredModels.length === 0 && (
-              <p className="px-2 py-1.5 text-xs text-muted-foreground">No models found.</p>
+              <p className="px-2 py-1.5 text-xs text-muted-foreground">{t("agentConfig.noModelsFound")}</p>
             )}
           </div>
         </PopoverContent>

@@ -22,11 +22,12 @@ import { Separator } from "@/components/ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { User, Hexagon, ArrowUpRight, Tag, Plus, Trash2, Copy, Check } from "lucide-react";
 import { AgentIcon } from "./AgentIconPicker";
+import { useTranslation } from "../i18n";
 
-const EXECUTION_WORKSPACE_OPTIONS = [
-  { value: "shared_workspace", label: "Project default" },
-  { value: "isolated_workspace", label: "New isolated workspace" },
-  { value: "reuse_existing", label: "Reuse existing workspace" },
+const EXECUTION_WORKSPACE_OPTIONS = (t: ReturnType<typeof useTranslation>["t"]) => [
+  { value: "shared_workspace", label: t("issueProperties.projectDefault") },
+  { value: "isolated_workspace", label: t("issueProperties.newIsolatedWorkspace") },
+  { value: "reuse_existing", label: t("issueProperties.reuseExistingWorkspace") },
 ] as const;
 
 function defaultProjectWorkspaceIdForProject(project: {
@@ -174,6 +175,7 @@ function CopyableValue({ value, label, mono, className }: { value: string; label
 }
 
 export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProps) {
+  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const queryClient = useQueryClient();
   const companyId = issue.companyId ?? selectedCompanyId;
@@ -256,7 +258,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
   };
 
   const projectName = (id: string | null) => {
-    if (!id) return id?.slice(0, 8) ?? "None";
+    if (!id) return id?.slice(0, 8) ?? t("issueProperties.none");
     const project = orderedProjects.find((p) => p.id === id);
     return project?.name ?? id.slice(0, 8);
   };
@@ -413,7 +415,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
           }
         >
           <Plus className="h-3 w-3" />
-          {createLabel.isPending ? "Creating…" : "Create label"}
+          {createLabel.isPending ? t("issueProperties.creating") : t("issueProperties.createLabel")}
         </button>
       </div>
     </>
@@ -589,7 +591,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
   return (
     <div className="space-y-4">
       <div className="space-y-1">
-        <PropertyRow label="Status">
+        <PropertyRow label={t("issueProperties.status")}>
           <StatusIcon
             status={issue.status}
             onChange={(status) => onUpdate({ status })}
@@ -597,7 +599,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
           />
         </PropertyRow>
 
-        <PropertyRow label="Priority">
+        <PropertyRow label={t("issueProperties.priority")}>
           <PriorityIcon
             priority={issue.priority}
             onChange={(priority) => onUpdate({ priority })}
@@ -607,7 +609,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
 
         <PropertyPicker
           inline={inline}
-          label="Labels"
+          label={t("issueProperties.labels")}
           open={labelsOpen}
           onOpenChange={(open) => { setLabelsOpen(open); if (!open) setLabelSearch(""); }}
           triggerContent={labelsTrigger}
@@ -619,7 +621,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
 
         <PropertyPicker
           inline={inline}
-          label="Assignee"
+          label={t("issueProperties.assignee")}
           open={assigneeOpen}
           onOpenChange={(open) => { setAssigneeOpen(open); if (!open) setAssigneeSearch(""); }}
           triggerContent={assigneeTrigger}
@@ -639,7 +641,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
 
         <PropertyPicker
           inline={inline}
-          label="Project"
+          label={t("issueProperties.project")}
           open={projectOpen}
           onOpenChange={(open) => { setProjectOpen(open); if (!open) setProjectSearch(""); }}
           triggerContent={projectTrigger}
@@ -659,7 +661,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
         </PropertyPicker>
 
         {currentProjectSupportsExecutionWorkspace && (
-          <PropertyRow label="Workspace">
+          <PropertyRow label={t("issueProperties.workspace")}>
             <div className="w-full space-y-2">
               <select
                 className="w-full rounded border border-border bg-transparent px-2 py-1.5 text-xs outline-none"
@@ -678,7 +680,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
                   });
                 }}
               >
-                {EXECUTION_WORKSPACE_OPTIONS.map((option) => (
+                {EXECUTION_WORKSPACE_OPTIONS(t).map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -765,7 +767,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
 
       <div className="space-y-1">
         {(issue.createdByAgentId || issue.createdByUserId) && (
-          <PropertyRow label="Created by">
+          <PropertyRow label={t("issueProperties.createdBy")}>
             {issue.createdByAgentId ? (
               <Link
                 to={`/agents/${issue.createdByAgentId}`}
@@ -791,7 +793,7 @@ export function IssueProperties({ issue, onUpdate, inline }: IssuePropertiesProp
             <span className="text-sm">{formatDate(issue.completedAt)}</span>
           </PropertyRow>
         )}
-        <PropertyRow label="Created">
+        <PropertyRow label={t("issueProperties.created")}>
           <span className="text-sm">{formatDate(issue.createdAt)}</span>
         </PropertyRow>
         <PropertyRow label="Updated">
