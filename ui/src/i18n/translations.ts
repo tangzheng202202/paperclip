@@ -1035,6 +1035,23 @@ export const translations = {
     "orgChart.zoomIn": "放大",
     "orgChart.zoomOut": "缩小",
     "orgChart.fitToScreen": "适应屏幕",
+
+    // Companies
+    "companies.title": "公司",
+    "companies.newCompany": "新建公司",
+    "companies.loading": "加载公司中...",
+    "companies.agent": "员工",
+    "companies.agents": "员工",
+    "companies.issue": "任务",
+    "companies.issues": "任务",
+    "companies.unlimitedBudget": "无限预算",
+    "companies.created": "创建于",
+    "companies.rename": "重命名",
+    "companies.deleteCompany": "删除公司",
+    "companies.deleteConfirm": "删除此公司及其所有数据？此操作无法撤销。",
+    "companies.cancel": "取消",
+    "companies.deleting": "删除中...",
+    "companies.delete": "删除",
   },
 };
 
