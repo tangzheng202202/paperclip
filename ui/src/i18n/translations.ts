@@ -379,6 +379,7 @@ export const translations = {
     "plugins.disableFailed": "禁用插件失败",
     "plugins.loadingPlugins": "加载插件中...",
     "plugins.loadFailed": "加载插件失败。",
+    "plugins.installExample": "安装示例",
     "plugins.about": "关于",
     "plugins.author": "作者",
     "plugins.categories": "分类",
