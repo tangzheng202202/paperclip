@@ -49,6 +49,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import type { RoutineTrigger } from "@paperclipai/shared";
+import { useTranslation } from "../i18n";
 
 const concurrencyPolicies = ["coalesce_if_active", "always_enqueue", "skip_if_active"];
 const catchUpPolicies = ["skip_missed", "enqueue_missed_with_cap"];
@@ -117,11 +118,13 @@ function TriggerEditor({
   onSave,
   onRotate,
   onDelete,
+  t,
 }: {
   trigger: RoutineTrigger;
   onSave: (id: string, patch: Record<string, unknown>) => void;
   onRotate: (id: string) => void;
   onDelete: (id: string) => void;
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   const [draft, setDraft] = useState({
     label: trigger.label ?? "",
@@ -148,16 +151,16 @@ function TriggerEditor({
         </div>
         <span className="text-xs text-muted-foreground">
           {trigger.kind === "schedule" && trigger.nextRunAt
-            ? `Next: ${new Date(trigger.nextRunAt).toLocaleString()}`
+            ? `${t("routines.nextRun")}: ${new Date(trigger.nextRunAt).toLocaleString()}`
             : trigger.kind === "webhook"
-              ? "Webhook"
-              : "API"}
+              ? t("routines.webhook")
+              : t("routines.api")}
         </span>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         <div className="space-y-1.5">
-          <Label className="text-xs">Label</Label>
+          <Label className="text-xs">{t("routines.label")}</Label>
           <Input
             value={draft.label}
             onChange={(event) => setDraft((current) => ({ ...current, label: event.target.value }))}
@@ -165,7 +168,7 @@ function TriggerEditor({
         </div>
         {trigger.kind === "schedule" && (
           <div className="md:col-span-2 space-y-1.5">
-            <Label className="text-xs">Schedule</Label>
+            <Label className="text-xs">{t("routines.schedule")}</Label>
             <ScheduleEditor
               value={draft.cronExpression}
               onChange={(cronExpression) => setDraft((current) => ({ ...current, cronExpression }))}
@@ -233,6 +236,7 @@ function TriggerEditor({
 }
 
 export function RoutineDetail() {
+  const { t } = useTranslation();
   const { routineId } = useParams<{ routineId: string }>();
   const { selectedCompanyId } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
@@ -401,7 +405,7 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to save routine",
+        title: t("routines.failedToSaveRoutine"),
         body: error instanceof Error ? error.message : "Paperclip could not save the routine.",
         tone: "error",
       });
@@ -444,7 +448,7 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to update routine",
+        title: t("routines.failedToUpdateRoutine"),
         body: error instanceof Error ? error.message : "Paperclip could not update the routine.",
         tone: "error",
       });
@@ -472,7 +476,7 @@ export function RoutineDetail() {
     onSuccess: async (result) => {
       if (result.secretMaterial) {
         setSecretMessage({
-          title: "Webhook trigger created",
+          title: t("routines.webhookTriggerCreated"),
           webhookUrl: result.secretMaterial.webhookUrl,
           webhookSecret: result.secretMaterial.webhookSecret,
         });
@@ -485,7 +489,7 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to add trigger",
+        title: t("routines.failedToAddTrigger"),
         body: error instanceof Error ? error.message : "Paperclip could not create the trigger.",
         tone: "error",
       });
@@ -503,7 +507,7 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to update trigger",
+        title: t("routines.failedToUpdateTrigger"),
         body: error instanceof Error ? error.message : "Paperclip could not update the trigger.",
         tone: "error",
       });
@@ -521,7 +525,7 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to delete trigger",
+        title: t("routines.failedToDeleteTrigger"),
         body: error instanceof Error ? error.message : "Paperclip could not delete the trigger.",
         tone: "error",
       });
@@ -532,7 +536,7 @@ export function RoutineDetail() {
     mutationFn: (id: string): Promise<RotateRoutineTriggerResponse> => routinesApi.rotateTriggerSecret(id),
     onSuccess: async (result) => {
       setSecretMessage({
-        title: "Webhook secret rotated",
+        title: t("routines.webhookSecretRotated"),
         webhookUrl: result.secretMaterial.webhookUrl,
         webhookSecret: result.secretMaterial.webhookSecret,
       });
@@ -543,7 +547,7 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to rotate webhook secret",
+        title: t("routines.failedToRotateWebhookSecret"),
         body: error instanceof Error ? error.message : "Paperclip could not rotate the webhook secret.",
         tone: "error",
       });
@@ -677,14 +681,14 @@ export function RoutineDetail() {
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Input value={secretMessage.webhookUrl} readOnly className="flex-1" />
-              <Button variant="outline" size="sm" onClick={() => copySecretValue("Webhook URL", secretMessage.webhookUrl)}>
+              <Button variant="outline" size="sm" onClick={() => copySecretValue(t("routines.webhookUrl"), secretMessage.webhookUrl)}>
                 <Copy className="h-3.5 w-3.5 mr-1" />
                 URL
               </Button>
             </div>
             <div className="flex items-center gap-2">
               <Input value={secretMessage.webhookSecret} readOnly className="flex-1" />
-              <Button variant="outline" size="sm" onClick={() => copySecretValue("Webhook secret", secretMessage.webhookSecret)}>
+              <Button variant="outline" size="sm" onClick={() => copySecretValue(t("routines.webhookSecret"), secretMessage.webhookSecret)}>
                 <Copy className="h-3.5 w-3.5 mr-1" />
                 Secret
               </Button>
@@ -701,10 +705,10 @@ export function RoutineDetail() {
             ref={assigneeSelectorRef}
             value={editDraft.assigneeAgentId}
             options={assigneeOptions}
-            placeholder="Assignee"
-            noneLabel="No assignee"
-            searchPlaceholder="Search assignees..."
-            emptyMessage="No assignees found."
+            placeholder={t("common.assignee")}
+            noneLabel={t("routines.noAssignee")}
+            searchPlaceholder={t("common.searchAssignees")}
+            emptyMessage={t("routines.noAssigneesFound")}
             onChange={(assigneeAgentId) => {
               if (assigneeAgentId) trackRecentAssignee(assigneeAgentId);
               setEditDraft((current) => ({ ...current, assigneeAgentId }));
@@ -746,10 +750,10 @@ export function RoutineDetail() {
             ref={projectSelectorRef}
             value={editDraft.projectId}
             options={projectOptions}
-            placeholder="Project"
-            noneLabel="No project"
-            searchPlaceholder="Search projects..."
-            emptyMessage="No projects found."
+            placeholder={t("common.project")}
+            noneLabel={t("routines.noProject")}
+            searchPlaceholder={t("routines.searchProjects")}
+            emptyMessage={t("routines.noProjectsFound")}
             onChange={(projectId) => setEditDraft((current) => ({ ...current, projectId }))}
             onConfirm={() => descriptionEditorRef.current?.focus()}
             renderTriggerValue={(option) =>
@@ -950,6 +954,7 @@ export function RoutineDetail() {
                   onSave={(id, patch) => updateTrigger.mutate({ id, patch })}
                   onRotate={(id) => rotateTrigger.mutate(id)}
                   onDelete={(id) => deleteTrigger.mutate(id)}
+                  t={t}
                 />
               ))}
             </div>
