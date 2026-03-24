@@ -614,7 +614,7 @@ export function AgentDetail() {
       companyId: resolvedCompanyId ?? "",
       scopeType: "agent",
       scopeId: agent?.id ?? routeAgentRef,
-      scopeName: agent?.name ?? "Agent",
+      scopeName: agent?.name ?? t("agents.title"),
       metric: "billed_cents",
       windowKind: "calendar_month_utc",
       amount: budgetMonthlyCents,
@@ -762,30 +762,30 @@ export function AgentDetail() {
     const crumbs: { label: string; href?: string }[] = [
       { label: t("agents.title"), href: "/agents" },
     ];
-    const agentName = agent?.name ?? routeAgentRef ?? "Agent";
+    const agentName = agent?.name ?? routeAgentRef ?? t("agents.title");
     if (activeView === "dashboard" && !urlRunId) {
       crumbs.push({ label: agentName });
     } else {
       crumbs.push({ label: agentName, href: `/agents/${canonicalAgentRef}/dashboard` });
       if (urlRunId) {
-        crumbs.push({ label: "Runs", href: `/agents/${canonicalAgentRef}/runs` });
-        crumbs.push({ label: `Run ${urlRunId.slice(0, 8)}` });
+        crumbs.push({ label: t("agentDetail.runs"), href: `/agents/${canonicalAgentRef}/runs` });
+        crumbs.push({ label: `${t("agentDetail.run")} ${urlRunId.slice(0, 8)}` });
       } else if (activeView === "instructions") {
-        crumbs.push({ label: "Instructions" });
+        crumbs.push({ label: t("agentDetail.instructions") });
       } else if (activeView === "configuration") {
-        crumbs.push({ label: "Configuration" });
+        crumbs.push({ label: t("agentDetail.configuration") });
       // } else if (activeView === "skills") { // TODO: bring back later
       //   crumbs.push({ label: "Skills" });
       } else if (activeView === "runs") {
-        crumbs.push({ label: "Runs" });
+        crumbs.push({ label: t("agentDetail.runs") });
       } else if (activeView === "budget") {
-        crumbs.push({ label: "Budget" });
+        crumbs.push({ label: t("agentDetail.budget") });
       } else {
-        crumbs.push({ label: "Dashboard" });
+        crumbs.push({ label: t("agentDetail.dashboard") });
       }
     }
     setBreadcrumbs(crumbs);
-  }, [setBreadcrumbs, agent, routeAgentRef, canonicalAgentRef, activeView, urlRunId]);
+  }, [setBreadcrumbs, agent, routeAgentRef, canonicalAgentRef, activeView, urlRunId, t]);
 
   useEffect(() => {
     closePanel();
@@ -837,12 +837,12 @@ export function AgentDetail() {
             onClick={() => openNewIssue({ assigneeAgentId: agent.id })}
           >
             <Plus className="h-3.5 w-3.5 sm:mr-1" />
-            <span className="hidden sm:inline">Assign Task</span>
+            <span className="hidden sm:inline">{t("agentDetail.assignTask")}</span>
           </Button>
           <RunButton
             onClick={() => agentAction.mutate("invoke")}
             disabled={agentAction.isPending || isPendingApproval}
-            label="Run Heartbeat"
+            label={t("agentDetail.runHeartbeat")}
           />
           <PauseResumeButton
             isPaused={agent.status === "paused"}
@@ -860,7 +860,7 @@ export function AgentDetail() {
                 <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
               </span>
-              <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400">Live</span>
+              <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400">{t("agentDetail.live")}</span>
             </Link>
           )}
 
@@ -880,7 +880,7 @@ export function AgentDetail() {
                 }}
               >
                 <Copy className="h-3 w-3" />
-                Copy Agent ID
+                {t("agentDetail.copyAgentId")}
               </button>
               <button
                 className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50"
@@ -1183,13 +1183,13 @@ function AgentOverview({
       {/* Recent Issues */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">Recent Issues</h3>
+          <h3 className="text-sm font-medium">{t("agentDetail.recentIssues")}</h3>
           <Link to={`/issues?assignee=${agentId}`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-            See All &rarr;
+            {t("agentDetail.seeAll")} &rarr;
           </Link>
         </div>
         {assignedIssues.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No assigned issues.</p>
+          <p className="text-sm text-muted-foreground">{t("agentDetail.noAssignedIssues")}</p>
         ) : (
           <div className="border border-border rounded-lg">
             {assignedIssues.slice(0, 10).map((issue) => (
@@ -1203,7 +1203,7 @@ function AgentOverview({
             ))}
             {assignedIssues.length > 10 && (
               <div className="px-3 py-2 text-xs text-muted-foreground text-center border-t border-border">
-                +{assignedIssues.length - 10} more issues
+                +{assignedIssues.length - 10} {t("agentDetail.moreIssues")}
               </div>
             )}
           </div>
@@ -1212,8 +1212,8 @@ function AgentOverview({
 
       {/* Costs */}
       <div className="space-y-3">
-        <h3 className="text-sm font-medium">Costs</h3>
-        <CostsSection runtimeState={runtimeState} runs={runs} />
+        <h3 className="text-sm font-medium">{t("agentDetail.costs")}</h3>
+        <CostsSection runtimeState={runtimeState} runs={runs} t={t} />
       </div>
     </div>
   );
@@ -1224,9 +1224,11 @@ function AgentOverview({
 function CostsSection({
   runtimeState,
   runs,
+  t,
 }: {
   runtimeState?: AgentRuntimeState;
   runs: HeartbeatRun[];
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   const runsWithCost = runs
     .filter((r) => {
@@ -1241,19 +1243,19 @@ function CostsSection({
         <div className="border border-border rounded-lg p-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 tabular-nums">
             <div>
-              <span className="text-xs text-muted-foreground block">Input tokens</span>
+              <span className="text-xs text-muted-foreground block">{t("agentDetail.inputTokens")}</span>
               <span className="text-lg font-semibold">{formatTokens(runtimeState.totalInputTokens)}</span>
             </div>
             <div>
-              <span className="text-xs text-muted-foreground block">Output tokens</span>
+              <span className="text-xs text-muted-foreground block">{t("agentDetail.outputTokens")}</span>
               <span className="text-lg font-semibold">{formatTokens(runtimeState.totalOutputTokens)}</span>
             </div>
             <div>
-              <span className="text-xs text-muted-foreground block">Cached tokens</span>
+              <span className="text-xs text-muted-foreground block">{t("agentDetail.cachedTokens")}</span>
               <span className="text-lg font-semibold">{formatTokens(runtimeState.totalCachedInputTokens)}</span>
             </div>
             <div>
-              <span className="text-xs text-muted-foreground block">Total cost</span>
+              <span className="text-xs text-muted-foreground block">{t("agentDetail.totalCost")}</span>
               <span className="text-lg font-semibold">{formatCents(runtimeState.totalCostCents)}</span>
             </div>
           </div>
@@ -1264,11 +1266,11 @@ function CostsSection({
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border bg-accent/20">
-                <th className="text-left px-3 py-2 font-medium text-muted-foreground">Date</th>
-                <th className="text-left px-3 py-2 font-medium text-muted-foreground">Run</th>
-                <th className="text-right px-3 py-2 font-medium text-muted-foreground">Input</th>
-                <th className="text-right px-3 py-2 font-medium text-muted-foreground">Output</th>
-                <th className="text-right px-3 py-2 font-medium text-muted-foreground">Cost</th>
+                <th className="text-left px-3 py-2 font-medium text-muted-foreground">{t("agentDetail.date")}</th>
+                <th className="text-left px-3 py-2 font-medium text-muted-foreground">{t("agentDetail.run")}</th>
+                <th className="text-right px-3 py-2 font-medium text-muted-foreground">{t("agentDetail.input")}</th>
+                <th className="text-right px-3 py-2 font-medium text-muted-foreground">{t("agentDetail.output")}</th>
+                <th className="text-right px-3 py-2 font-medium text-muted-foreground">{t("agentDetail.cost")}</th>
               </tr>
             </thead>
             <tbody>

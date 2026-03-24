@@ -860,19 +860,19 @@ export function CompanySkills() {
       if (result.imported[0]) navigate(skillRoute(result.imported[0].id));
       pushToast({
         tone: "success",
-        title: "Skills imported",
-        body: `${result.imported.length} skill${result.imported.length === 1 ? "" : "s"} added.`,
+        title: t("skills.skillsImported"),
+        body: `${result.imported.length} 个技能已添加。`,
       });
       if (result.warnings[0]) {
-        pushToast({ tone: "warn", title: "Import warnings", body: result.warnings[0] });
+        pushToast({ tone: "warn", title: t("skills.importWarnings"), body: result.warnings[0] });
       }
       setSource("");
     },
     onError: (error) => {
       pushToast({
         tone: "error",
-        title: "Skill import failed",
-        body: error instanceof Error ? error.message : "Failed to import skill source.",
+        title: t("skills.skillImportFailed"),
+        body: error instanceof Error ? error.message : t("skills.failedToImportSkillSource"),
       });
     },
   });
@@ -885,15 +885,15 @@ export function CompanySkills() {
       setCreateOpen(false);
       pushToast({
         tone: "success",
-        title: "Skill created",
-        body: `${skill.name} is now editable in the Paperclip workspace.`,
+        title: t("skills.skillCreated"),
+        body: `${skill.name} 现在可以在 Paperclip 工作区中编辑。`,
       });
     },
     onError: (error) => {
       pushToast({
         tone: "error",
-        title: "Skill creation failed",
-        body: error instanceof Error ? error.message : "Failed to create skill.",
+        title: t("skills.skillCreationFailed"),
+        body: error instanceof Error ? error.message : t("skills.failedToCreateSkill"),
       });
     },
   });
@@ -916,13 +916,13 @@ export function CompanySkills() {
       if (result.conflicts[0]) {
         pushToast({
           tone: "warn",
-          title: "Skill conflicts found",
+          title: t("skills.skillConflictsFound"),
           body: result.conflicts[0].reason,
         });
       } else if (result.warnings[0]) {
         pushToast({
           tone: "warn",
-          title: "Scan warnings",
+          title: t("skills.scanWarnings"),
           body: result.warnings[0],
         });
       }
@@ -931,8 +931,8 @@ export function CompanySkills() {
       setScanStatusMessage(null);
       pushToast({
         tone: "error",
-        title: "Project skill scan failed",
-        body: error instanceof Error ? error.message : "Failed to scan project workspaces.",
+        title: t("skills.projectSkillScanFailed"),
+        body: error instanceof Error ? error.message : t("skills.failedToScanProjectWorkspaces"),
       });
     },
   });
@@ -954,15 +954,15 @@ export function CompanySkills() {
       setEditMode(false);
       pushToast({
         tone: "success",
-        title: "Skill saved",
+        title: t("skills.skillSaved"),
         body: result.path,
       });
     },
     onError: (error) => {
       pushToast({
         tone: "error",
-        title: "Save failed",
-        body: error instanceof Error ? error.message : "Failed to save skill file.",
+        title: t("skills.saveFailed"),
+        body: error instanceof Error ? error.message : t("skills.failedToSaveSkillFile"),
       });
     },
   });
@@ -979,15 +979,15 @@ export function CompanySkills() {
       navigate(skillRoute(skill.id, selectedPath));
       pushToast({
         tone: "success",
-        title: "Skill updated",
-        body: skill.sourceRef ? `Pinned to ${shortRef(skill.sourceRef)}` : skill.name,
+        title: t("skills.skillUpdated"),
+        body: skill.sourceRef ? `固定到 ${shortRef(skill.sourceRef)}` : skill.name,
       });
     },
     onError: (error) => {
       pushToast({
         tone: "error",
-        title: "Update failed",
-        body: error instanceof Error ? error.message : "Failed to install skill update.",
+        title: t("skills.updateFailed"),
+        body: error instanceof Error ? error.message : t("skills.failedToInstallSkillUpdate"),
       });
     },
   });
@@ -1065,7 +1065,7 @@ export function CompanySkills() {
                   size="icon-sm"
                   onClick={() => scanProjects.mutate()}
                   disabled={scanProjects.isPending}
-                  title="Scan project workspaces for skills"
+                  title={t("skills.scanProjectWorkspaces")}
                 >
                   <RefreshCw className={cn("h-4 w-4", scanProjects.isPending && "animate-spin")} />
                 </Button>

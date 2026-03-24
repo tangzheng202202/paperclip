@@ -58,13 +58,13 @@ export const help: Record<string, string> = {
 };
 
 export const adapterLabels: Record<string, string> = {
-  claude_local: "Claude (local)",
-  codex_local: "Codex (local)",
-  gemini_local: "Gemini CLI (local)",
-  opencode_local: "OpenCode (local)",
-  openclaw_gateway: "OpenClaw Gateway",
-  cursor: "Cursor (local)",
-  process: "Process",
+  claude_local: "Claude（本地）",
+  codex_local: "Codex（本地）",
+  gemini_local: "Gemini CLI（本地）",
+  opencode_local: "OpenCode（本地）",
+  openclaw_gateway: "OpenClaw 网关",
+  cursor: "Cursor（本地）",
+  process: "进程",
   http: "HTTP",
 };
 
