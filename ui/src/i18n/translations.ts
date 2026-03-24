@@ -921,6 +921,31 @@ export const translations = {
     "projectProperties.failedToUpdateWorkspace": "更新工作区失败。",
     "projectProperties.noUrl": "无 URL",
     "projectProperties.codebaseHelp": "仓库标识真实来源。本地文件夹是代理编写代码的默认位置。",
+
+    // ApprovalCard
+    "approval.requestedBy": "请求者",
+    "approval.note": "备注",
+    "approval.approve": "批准",
+    "approval.reject": "拒绝",
+    "approval.viewDetails": "查看详情",
+    "approval.pending": "待审批",
+    "approval.approved": "已批准",
+    "approval.rejected": "已拒绝",
+    "approval.revisionRequested": "请求修改",
+
+    // AgentActionButtons
+    "agentButtons.runNow": "立即运行",
+    "agentButtons.resume": "恢复",
+    "agentButtons.pause": "暂停",
+
+    // NewAgentDialog
+    "newAgent.title": "添加新员工",
+    "newAgent.recommendation": "我们建议让 CEO 处理员工配置——他们了解组织结构，可以配置汇报关系、权限和适配器。",
+    "newAgent.askCeo": "让 CEO 创建新员工",
+    "newAgent.advancedConfig": "我想要高级配置",
+    "newAgent.chooseAdapter": "选择您的适配器类型进行高级设置。",
+    "newAgent.recommended": "推荐",
+    "newAgent.back": "返回",
   },
 };
 

@@ -7,9 +7,16 @@ export const typeLabel: Record<string, string> = {
   budget_override_required: "Budget Override",
 };
 
+export const typeLabelZhCN: Record<string, string> = {
+  hire_agent: "雇用员工",
+  approve_ceo_strategy: "CEO 战略",
+  budget_override_required: "预算覆盖",
+};
+
 /** Build a contextual label for an approval, e.g. "Hire Agent: Designer" */
-export function approvalLabel(type: string, payload?: Record<string, unknown> | null): string {
-  const base = typeLabel[type] ?? type;
+export function approvalLabel(type: string, payload?: Record<string, unknown> | null, t?: (key: string) => string): string {
+  const labels = t ? typeLabelZhCN : typeLabel;
+  const base = labels[type] ?? type;
   if (type === "hire_agent" && payload?.name) {
     return `${base}: ${String(payload.name)}`;
   }
