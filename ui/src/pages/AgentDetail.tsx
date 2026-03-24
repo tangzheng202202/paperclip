@@ -94,6 +94,7 @@ import {
   arraysEqual,
   isReadOnlyUnmanagedSkillEntry,
 } from "../lib/agent-skills-state";
+import { useTranslation } from "../i18n";
 
 const runStatusIcons: Record<string, { icon: typeof CheckCircle2; color: string }> = {
   succeeded: { icon: CheckCircle2, color: "text-green-600 dark:text-green-400" },
@@ -159,12 +160,12 @@ function formatEnvForDisplay(envValue: unknown, censorUsernameInLogs: boolean): 
     .join("\n");
 }
 
-const sourceLabels: Record<string, string> = {
-  timer: "Timer",
-  assignment: "Assignment",
-  on_demand: "On-demand",
-  automation: "Automation",
-};
+const sourceLabels = (t: ReturnType<typeof useTranslation>["t"]): Record<string, string> => ({
+  timer: t("agentDetail.timer"),
+  assignment: t("agentDetail.assignment"),
+  on_demand: t("agentDetail.onDemand"),
+  automation: t("agentDetail.automation"),
+});
 
 const LIVE_SCROLL_BOTTOM_TOLERANCE_PX = 32;
 type ScrollContainer = Window | HTMLElement;
@@ -349,9 +350,11 @@ function WorkspaceOperationStatusBadge({ status }: { status: WorkspaceOperation[
 function WorkspaceOperationLogViewer({
   operation,
   censorUsernameInLogs,
+  t,
 }: {
   operation: WorkspaceOperation;
   censorUsernameInLogs: boolean;
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   const [open, setOpen] = useState(false);
   const { data: logData, isLoading, error } = useQuery({
@@ -373,18 +376,18 @@ function WorkspaceOperationLogViewer({
         className="text-[11px] text-muted-foreground underline underline-offset-2 hover:text-foreground"
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? "Hide full log" : "Show full log"}
+        {open ? t("common.close") : t("agentDetail.showFullLog")}
       </button>
       {open && (
         <div className="rounded-md border border-border bg-background/70 p-2">
-          {isLoading && <div className="text-xs text-muted-foreground">Loading log...</div>}
+          {isLoading && <div className="text-xs text-muted-foreground">{t("common.loading")}</div>}
           {error && (
             <div className="text-xs text-destructive">
-              {error instanceof Error ? error.message : "Failed to load workspace operation log"}
+              {error instanceof Error ? error.message : t("agentDetail.failedToLoadLog")}
             </div>
           )}
           {!isLoading && !error && chunks.length === 0 && (
-            <div className="text-xs text-muted-foreground">No persisted log lines.</div>
+            <div className="text-xs text-muted-foreground">{t("agentDetail.noPersistedLogs")}</div>
           )}
           {chunks.length > 0 && (
             <div className="max-h-64 overflow-y-auto rounded bg-neutral-100 p-2 font-mono text-xs dark:bg-neutral-950">
@@ -419,9 +422,11 @@ function WorkspaceOperationLogViewer({
 function WorkspaceOperationsSection({
   operations,
   censorUsernameInLogs,
+  t,
 }: {
   operations: WorkspaceOperation[];
   censorUsernameInLogs: boolean;
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   if (operations.length === 0) return null;
 
@@ -480,7 +485,7 @@ function WorkspaceOperationsSection({
               )}
               {typeof metadata?.created === "boolean" && (
                 <div className="text-xs text-muted-foreground">
-                  {metadata.created ? "Created by this run" : "Reused existing workspace"}
+                  {metadata.created ? t("agentDetail.createdByThisRun") : t("agentDetail.reusedExistingWorkspace")}
                 </div>
               )}
               {operation.stderrExcerpt && operation.stderrExcerpt.trim() && (
@@ -503,6 +508,7 @@ function WorkspaceOperationsSection({
                 <WorkspaceOperationLogViewer
                   operation={operation}
                   censorUsernameInLogs={censorUsernameInLogs}
+                  t={t}
                 />
               )}
             </div>
@@ -514,6 +520,7 @@ function WorkspaceOperationsSection({
 }
 
 export function AgentDetail() {
+  const { t } = useTranslation();
   const { companyPrefix, agentId, tab: urlTab, runId: urlRunId } = useParams<{
     companyPrefix?: string;
     agentId: string;
@@ -689,7 +696,7 @@ export function AgentDetail() {
       }
     },
     onError: (err) => {
-      setActionError(err instanceof Error ? err.message : "Action failed");
+      setActionError(err instanceof Error ? err.message : t("agentDetail.actionFailed"));
     },
   });
 
@@ -731,7 +738,7 @@ export function AgentDetail() {
       queryClient.invalidateQueries({ queryKey: queryKeys.agents.taskSessions(agentLookupRef) });
     },
     onError: (err) => {
-      setActionError(err instanceof Error ? err.message : "Failed to reset session");
+      setActionError(err instanceof Error ? err.message : t("agentDetail.failedToResetSession"));
     },
   });
 
@@ -747,13 +754,13 @@ export function AgentDetail() {
       }
     },
     onError: (err) => {
-      setActionError(err instanceof Error ? err.message : "Failed to update permissions");
+      setActionError(err instanceof Error ? err.message : t("agentDetail.failedToUpdatePermissions"));
     },
   });
 
   useEffect(() => {
     const crumbs: { label: string; href?: string }[] = [
-      { label: "Agents", href: "/agents" },
+      { label: t("agents.title"), href: "/agents" },
     ];
     const agentName = agent?.name ?? routeAgentRef ?? "Agent";
     if (activeView === "dashboard" && !urlRunId) {
@@ -883,7 +890,7 @@ export function AgentDetail() {
                 }}
               >
                 <RotateCcw className="h-3 w-3" />
-                Reset Sessions
+                {t("agentDetail.resetSessions")}
               </button>
               <button
                 className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 text-destructive"
@@ -893,7 +900,7 @@ export function AgentDetail() {
                 }}
               >
                 <Trash2 className="h-3 w-3" />
-                Terminate
+                {t("agentDetail.terminate")}
               </button>
             </PopoverContent>
           </Popover>
@@ -907,12 +914,12 @@ export function AgentDetail() {
         >
           <PageTabBar
             items={[
-              { value: "dashboard", label: "Dashboard" },
-              { value: "instructions", label: "Instructions" },
-              { value: "skills", label: "Skills" },
-              { value: "configuration", label: "Configuration" },
-              { value: "runs", label: "Runs" },
-              { value: "budget", label: "Budget" },
+              { value: "dashboard", label: t("agentDetail.dashboard") },
+              { value: "instructions", label: t("agentDetail.instructions") },
+              { value: "skills", label: t("agentDetail.skills") },
+              { value: "configuration", label: t("agentDetail.configuration") },
+              { value: "runs", label: t("agentDetail.runs") },
+              { value: "budget", label: t("agentDetail.budget") },
             ]}
             value={activeView}
             onValueChange={(value) => navigate(`/agents/${canonicalAgentRef}/${value}`)}
@@ -923,7 +930,7 @@ export function AgentDetail() {
       {actionError && <p className="text-sm text-destructive">{actionError}</p>}
       {isPendingApproval && (
         <p className="text-sm text-amber-500">
-          This agent is pending board approval and cannot be invoked yet.
+          {t("agentDetail.pendingApproval")}
         </p>
       )}
 
@@ -944,14 +951,14 @@ export function AgentDetail() {
               onClick={() => cancelConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              Cancel
+              {t("agentDetail.cancel")}
             </Button>
             <Button
               size="sm"
               onClick={() => saveConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              {configSaving ? "Saving…" : "Save"}
+              {configSaving ? t("agentDetail.saving") : t("agentDetail.save")}
             </Button>
           </div>
         </div>
@@ -970,14 +977,14 @@ export function AgentDetail() {
               onClick={() => cancelConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              Cancel
+              {t("agentDetail.cancel")}
             </Button>
             <Button
               size="sm"
               onClick={() => saveConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              {configSaving ? "Saving…" : "Save"}
+              {configSaving ? t("agentDetail.saving") : t("agentDetail.save")}
             </Button>
           </div>
         </div>
@@ -992,6 +999,7 @@ export function AgentDetail() {
           runtimeState={runtimeState}
           agentId={agent.id}
           agentRouteId={canonicalAgentRef}
+          t={t}
         />
       )}
 
@@ -1034,6 +1042,7 @@ export function AgentDetail() {
           agentRouteId={canonicalAgentRef}
           selectedRunId={urlRunId ?? null}
           adapterType={agent.adapterType}
+          t={t}
         />
       )}
 
@@ -1062,7 +1071,7 @@ function SummaryRow({ label, children }: { label: string; children: React.ReactN
   );
 }
 
-function LatestRunCard({ runs, agentId }: { runs: HeartbeatRun[]; agentId: string }) {
+function LatestRunCard({ runs, agentId, t }: { runs: HeartbeatRun[]; agentId: string; t: ReturnType<typeof useTranslation>["t"] }) {
   if (runs.length === 0) return null;
 
   const sorted = [...runs].sort(
@@ -1088,13 +1097,13 @@ function LatestRunCard({ runs, agentId }: { runs: HeartbeatRun[]; agentId: strin
               <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
             </span>
           )}
-          {isLive ? "Live Run" : "Latest Run"}
+          {isLive ? t("agentDetail.liveRun") : t("agentDetail.latestRun")}
         </h3>
         <Link
           to={`/agents/${agentId}/runs/${run.id}`}
           className="shrink-0 text-xs text-muted-foreground hover:text-foreground transition-colors no-underline"
         >
-          View details &rarr;
+          {t("agentDetail.viewDetails")} &rarr;
         </Link>
       </div>
 
@@ -1116,7 +1125,7 @@ function LatestRunCard({ runs, agentId }: { runs: HeartbeatRun[]; agentId: strin
               : run.invocationSource === "on_demand" ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/50 dark:text-cyan-300"
               : "bg-muted text-muted-foreground"
           )}>
-            {sourceLabels[run.invocationSource] ?? run.invocationSource}
+            {sourceLabels(t)[run.invocationSource] ?? run.invocationSource}
           </span>
           <span className="ml-auto text-xs text-muted-foreground">{relativeTime(run.createdAt)}</span>
         </div>
@@ -1140,6 +1149,7 @@ function AgentOverview({
   runtimeState,
   agentId,
   agentRouteId,
+  t,
 }: {
   agent: AgentDetailRecord;
   runs: HeartbeatRun[];
@@ -1147,24 +1157,25 @@ function AgentOverview({
   runtimeState?: AgentRuntimeState;
   agentId: string;
   agentRouteId: string;
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   return (
     <div className="space-y-8">
       {/* Latest Run */}
-      <LatestRunCard runs={runs} agentId={agentRouteId} />
+      <LatestRunCard runs={runs} agentId={agentRouteId} t={t} />
 
       {/* Charts */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <ChartCard title="Run Activity" subtitle="Last 14 days">
+        <ChartCard title={t("agentDetail.runActivity")} subtitle={t("agentDetail.last14Days")}>
           <RunActivityChart runs={runs} />
         </ChartCard>
-        <ChartCard title="Issues by Priority" subtitle="Last 14 days">
+        <ChartCard title={t("agentDetail.issuesByPriority")} subtitle={t("agentDetail.last14Days")}>
           <PriorityChart issues={assignedIssues} />
         </ChartCard>
-        <ChartCard title="Issues by Status" subtitle="Last 14 days">
+        <ChartCard title={t("agentDetail.issuesByStatus")} subtitle={t("agentDetail.last14Days")}>
           <IssueStatusChart issues={assignedIssues} />
         </ChartCard>
-        <ChartCard title="Success Rate" subtitle="Last 14 days">
+        <ChartCard title={t("agentDetail.successRate")} subtitle={t("agentDetail.last14Days")}>
           <SuccessRateChart runs={runs} />
         </ChartCard>
       </div>
@@ -2667,7 +2678,7 @@ function AgentSkillsTab({
 
 /* ---- Runs Tab ---- */
 
-function RunListItem({ run, isSelected, agentId }: { run: HeartbeatRun; isSelected: boolean; agentId: string }) {
+function RunListItem({ run, isSelected, agentId, t }: { run: HeartbeatRun; isSelected: boolean; agentId: string; t: ReturnType<typeof useTranslation>["t"] }) {
   const statusInfo = runStatusIcons[run.status] ?? { icon: Clock, color: "text-neutral-400" };
   const StatusIcon = statusInfo.icon;
   const metrics = runMetrics(run);
@@ -2695,7 +2706,7 @@ function RunListItem({ run, isSelected, agentId }: { run: HeartbeatRun; isSelect
             : run.invocationSource === "on_demand" ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/50 dark:text-cyan-300"
             : "bg-muted text-muted-foreground"
         )}>
-          {sourceLabels[run.invocationSource] ?? run.invocationSource}
+          {sourceLabels(t)[run.invocationSource] ?? run.invocationSource}
         </span>
         <span className="ml-auto text-[11px] text-muted-foreground shrink-0">
           {relativeTime(run.createdAt)}
@@ -2723,6 +2734,7 @@ function RunsTab({
   agentRouteId,
   selectedRunId,
   adapterType,
+  t,
 }: {
   runs: HeartbeatRun[];
   companyId: string;
@@ -2730,11 +2742,12 @@ function RunsTab({
   agentRouteId: string;
   selectedRunId: string | null;
   adapterType: string;
+  t: ReturnType<typeof useTranslation>["t"];
 }) {
   const { isMobile } = useSidebar();
 
   if (runs.length === 0) {
-    return <p className="text-sm text-muted-foreground">No runs yet.</p>;
+    return <p className="text-sm text-muted-foreground">{t("agentDetail.noRunsYet")}</p>;
   }
 
   // Sort by created descending
@@ -2756,16 +2769,16 @@ function RunsTab({
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors no-underline"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Back to runs
+            {t("agentDetail.backToRuns")}
           </Link>
-          <RunDetail key={selectedRun.id} run={selectedRun} agentRouteId={agentRouteId} adapterType={adapterType} />
+          <RunDetail key={selectedRun.id} run={selectedRun} agentRouteId={agentRouteId} adapterType={adapterType} t={t} />
         </div>
       );
     }
     return (
       <div className="border border-border rounded-lg overflow-x-hidden">
         {sorted.map((run) => (
-          <RunListItem key={run.id} run={run} isSelected={false} agentId={agentRouteId} />
+          <RunListItem key={run.id} run={run} isSelected={false} agentId={agentRouteId} t={t} />
         ))}
       </div>
     );
@@ -2781,7 +2794,7 @@ function RunsTab({
       )}>
         <div className="sticky top-4 overflow-y-auto" style={{ maxHeight: "calc(100vh - 2rem)" }}>
         {sorted.map((run) => (
-          <RunListItem key={run.id} run={run} isSelected={run.id === effectiveRunId} agentId={agentRouteId} />
+          <RunListItem key={run.id} run={run} isSelected={run.id === effectiveRunId} agentId={agentRouteId} t={t} />
         ))}
         </div>
       </div>
@@ -2789,7 +2802,7 @@ function RunsTab({
       {/* Right: run detail — natural height, page scrolls */}
       {selectedRun && (
         <div className="flex-1 min-w-0 pl-4">
-          <RunDetail key={selectedRun.id} run={selectedRun} agentRouteId={agentRouteId} adapterType={adapterType} />
+          <RunDetail key={selectedRun.id} run={selectedRun} agentRouteId={agentRouteId} adapterType={adapterType} t={t} />
         </div>
       )}
     </div>
@@ -2798,7 +2811,7 @@ function RunsTab({
 
 /* ---- Run Detail (expanded) ---- */
 
-function RunDetail({ run: initialRun, agentRouteId, adapterType }: { run: HeartbeatRun; agentRouteId: string; adapterType: string }) {
+function RunDetail({ run: initialRun, agentRouteId, adapterType, t }: { run: HeartbeatRun; agentRouteId: string; adapterType: string; t: ReturnType<typeof useTranslation>["t"] }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: hydratedRun } = useQuery({
@@ -3202,7 +3215,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType }: { run: Heartb
       )}
 
       {/* Log viewer */}
-      <LogViewer run={run} adapterType={adapterType} />
+      <LogViewer run={run} adapterType={adapterType} t={t} />
       <ScrollToBottom />
     </div>
   );
@@ -3210,7 +3223,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType }: { run: Heartb
 
 /* ---- Log Viewer ---- */
 
-function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: string }) {
+function LogViewer({ run, adapterType, t }: { run: HeartbeatRun; adapterType: string; t: ReturnType<typeof useTranslation>["t"] }) {
   const [events, setEvents] = useState<HeartbeatRunEvent[]>([]);
   const [logLines, setLogLines] = useState<Array<{ ts: string; stream: "stdout" | "stderr" | "system"; chunk: string }>>([]);
   const [loading, setLoading] = useState(true);
@@ -3615,6 +3628,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
       <WorkspaceOperationsSection
         operations={workspaceOperations}
         censorUsernameInLogs={censorUsernameInLogs}
+        t={t}
       />
       {adapterInvokePayload && (
         <div className="rounded-lg border border-border bg-background/60 p-3 space-y-2">
