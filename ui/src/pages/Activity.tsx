@@ -118,7 +118,7 @@ export function Activity() {
         </Select>
       </div>
 
-      {error && <p className="text-sm text-destructive">{error.message}</p>}
+      {error && <p className="text-sm text-destructive">{t("common.loadingFailed")}</p>}
 
       {filtered && filtered.length === 0 && (
         <EmptyState icon={History} message="No activity yet." />
