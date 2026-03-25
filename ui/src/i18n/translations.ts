@@ -1447,6 +1447,29 @@ export const translations = {
 
     // WorktreeBanner
     "worktreeBanner.worktree": "工作树",
+
+    // SidebarAgents
+    "sidebarAgents.agents": "员工",
+    "sidebarAgents.newAgent": "新建员工",
+    "sidebarAgents.agentPausedByBudget": "员工因预算已暂停",
+    "sidebarAgents.live": "运行中",
+
+    // SidebarProjects
+    "sidebarProjects.projects": "项目",
+    "sidebarProjects.newProject": "新建项目",
+    "sidebarProjects.projectPausedByBudget": "项目因预算已暂停",
+
+    // IssueRow
+    "issueRow.markAsRead": "标记为已读",
+
+    // GoalProperties
+    "goalProperties.status": "状态",
+    "goalProperties.level": "层级",
+    "goalProperties.owner": "负责人",
+    "goalProperties.parentGoal": "父目标",
+    "goalProperties.created": "创建时间",
+    "goalProperties.updated": "更新时间",
+    "goalProperties.none": "无",
   },
 };
 
