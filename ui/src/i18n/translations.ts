@@ -1375,6 +1375,43 @@ export const translations = {
     "pluginPage.multiplePluginsDeclareRoute": "多个插件声明了路由",
     "pluginPage.usePluginIdRoute": "使用插件 ID 路由，直到冲突解决。",
     "pluginPage.back": "返回",
+
+    // MobileBottomNav
+    "mobileNav.home": "首页",
+    "mobileNav.issues": "任务",
+    "mobileNav.create": "创建",
+    "mobileNav.agents": "员工",
+    "mobileNav.inbox": "收件箱",
+
+    // CommandPalette
+    "commandPalette.searchPlaceholder": "搜索任务、员工、项目...",
+    "commandPalette.noResults": "未找到结果。",
+    "commandPalette.actions": "操作",
+    "commandPalette.createNewIssue": "创建新任务",
+    "commandPalette.createNewAgent": "创建新员工",
+    "commandPalette.createNewProject": "创建新项目",
+    "commandPalette.pages": "页面",
+    "commandPalette.dashboard": "仪表盘",
+    "commandPalette.inbox": "收件箱",
+    "commandPalette.issues": "任务",
+    "commandPalette.projects": "项目",
+    "commandPalette.goals": "目标",
+    "commandPalette.agents": "员工",
+    "commandPalette.costs": "成本",
+    "commandPalette.activity": "活动",
+    "commandPalette.issuesList": "任务",
+    "commandPalette.agentsList": "员工",
+    "commandPalette.projectsList": "项目",
+
+    // CompanySwitcher
+    "companySwitcher.selectCompany": "选择公司",
+    "companySwitcher.companies": "公司",
+    "companySwitcher.noCompanies": "无公司",
+    "companySwitcher.companySettings": "公司设置",
+    "companySwitcher.manageCompanies": "管理公司",
+
+    // BreadcrumbBar
+    "breadcrumbBar.openSidebar": "打开侧边栏",
   },
 };
 
