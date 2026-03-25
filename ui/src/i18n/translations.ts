@@ -1412,6 +1412,41 @@ export const translations = {
 
     // BreadcrumbBar
     "breadcrumbBar.openSidebar": "打开侧边栏",
+
+    // AgentProperties
+    "agentProperties.status": "状态",
+    "agentProperties.role": "角色",
+    "agentProperties.title": "职位",
+    "agentProperties.adapter": "适配器",
+    "agentProperties.session": "会话",
+    "agentProperties.lastError": "最后错误",
+    "agentProperties.lastHeartbeat": "最后心跳",
+    "agentProperties.reportsTo": "汇报给",
+    "agentProperties.created": "创建时间",
+
+    // DevRestartBanner
+    "devRestart.restartRequired": "需要重启",
+    "devRestart.autoRestartOn": "自动重启已开启",
+    "devRestart.backendChangesAndPendingMigrations": "后端文件已更改且有挂起的迁移",
+    "devRestart.pendingMigrationsNeedFreshBoot": "挂起的迁移需要重新启动",
+    "devRestart.backendFilesChanged": "后端文件在此服务器启动后已更改",
+    "devRestart.updatedAgo": " · 更新于 {time}",
+    "devRestart.changed": "已更改：",
+    "devRestart.pendingMigrations": "挂起的迁移：",
+    "devRestart.more": " +{count} 更多",
+    "devRestart.waitingForRunsToFinish": "等待 {count} 个运行完成",
+    "devRestart.autoRestartTriggerWhenIdle": "实例空闲时将触发自动重启",
+    "devRestart.restartAfterWorkSafe": "在活动工作安全中断后重启 <code>pnpm dev:once</code>",
+
+    // InstanceSidebar
+    "instanceSidebar.instanceSettings": "实例设置",
+    "instanceSidebar.general": "常规",
+    "instanceSidebar.heartbeats": "心跳",
+    "instanceSidebar.experimental": "实验性",
+    "instanceSidebar.plugins": "插件",
+
+    // WorktreeBanner
+    "worktreeBanner.worktree": "工作树",
   },
 };
 
