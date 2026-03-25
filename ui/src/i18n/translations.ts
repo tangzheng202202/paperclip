@@ -1325,6 +1325,56 @@ export const translations = {
     "newAgentPage.opencodeModelsStillLoading": "OpenCode 模型仍在加载中，请稍后再试。",
     "newAgentPage.noOpencodeModelsDiscovered": "未发现 OpenCode 模型。请运行 `opencode models` 并认证提供商。",
     "newAgentPage.opencodeModelUnavailable": "配置的 OpenCode 模型不可用",
+
+    // Layout
+    "layout.skipToMainContent": "跳转到主要内容",
+    "layout.documentation": "文档",
+    "layout.closeSidebar": "关闭侧边栏",
+    "layout.switchToLightMode": "切换到浅色模式",
+    "layout.switchToDarkMode": "切换到深色模式",
+    "layout.instanceSettings": "实例设置",
+
+    // BoardClaim
+    "boardClaim.title": "领取控制台所有权",
+    "boardClaim.invalidUrl": "无效的控制台领取 URL。",
+    "boardClaim.loading": "正在加载领取请求...",
+    "boardClaim.challengeUnavailable": "领取请求不可用",
+    "boardClaim.challengeInvalidOrExpired": "请求无效或已过期。",
+    "boardClaim.challengeUnavailableText": "领取请求不可用。",
+    "boardClaim.ownershipClaimed": "控制台所有权已领取",
+    "boardClaim.instanceLinked": "此实例现已链接到您的认证用户。",
+    "boardClaim.openBoard": "打开控制台",
+    "boardClaim.signInRequired": "需要登录",
+    "boardClaim.signInOrCreateAccount": "请登录或创建账户，然后返回此页面领取控制台所有权。",
+    "boardClaim.signInCreateAccount": "登录 / 创建账户",
+    "boardClaim.willPromoteToAdmin": "此操作将提升您的用户为实例管理员，并从本地信任模式迁移公司所有权访问。",
+    "boardClaim.failedToClaim": "领取控制台所有权失败",
+    "boardClaim.claiming": "领取中...",
+    "boardClaim.claimOwnership": "领取所有权",
+
+    // ExecutionWorkspaceDetail
+    "executionWorkspace.title": "执行工作区",
+    "executionWorkspace.loading": "加载中...",
+    "executionWorkspace.failedToLoad": "加载工作区失败",
+    "executionWorkspace.project": "项目",
+    "executionWorkspace.sourceIssue": "来源任务",
+    "executionWorkspace.branch": "分支",
+    "executionWorkspace.baseRef": "基础引用",
+    "executionWorkspace.workingDir": "工作目录",
+    "executionWorkspace.providerRef": "提供者引用",
+    "executionWorkspace.repoUrl": "仓库 URL",
+    "executionWorkspace.opened": "打开时间",
+    "executionWorkspace.lastUsed": "最后使用",
+    "executionWorkspace.cleanup": "清理",
+    "executionWorkspace.notScheduled": "未计划",
+    "executionWorkspace.none": "无",
+
+    // PluginPage
+    "pluginPage.selectCompanyToView": "请选择一家公司以查看此页面。",
+    "pluginPage.loading": "加载中...",
+    "pluginPage.multiplePluginsDeclareRoute": "多个插件声明了路由",
+    "pluginPage.usePluginIdRoute": "使用插件 ID 路由，直到冲突解决。",
+    "pluginPage.back": "返回",
   },
 };
 
