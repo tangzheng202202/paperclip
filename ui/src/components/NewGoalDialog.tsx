@@ -130,7 +130,7 @@ export function NewGoalDialog() {
               </span>
             )}
             <span className="text-muted-foreground/60">&rsaquo;</span>
-            <span>{newGoalDefaults.parentId ? "New sub-goal" : "New goal"}</span>
+            <span>{newGoalDefaults.parentId ? t("newGoalDialog.newSubGoal") : t("newGoalDialog.newGoal")}</span>
           </div>
           <div className="flex items-center gap-1">
             <Button
@@ -250,7 +250,7 @@ export function NewGoalDialog() {
                 )}
                 onClick={() => { setParentId(""); setParentOpen(false); }}
               >
-                No parent
+                {t("newGoalDialog.noParent")}
               </button>
               {(goals ?? []).map((g) => (
                 <button
@@ -275,7 +275,7 @@ export function NewGoalDialog() {
             disabled={!title.trim() || createGoal.isPending}
             onClick={handleSubmit}
           >
-            {createGoal.isPending ? "Creating…" : newGoalDefaults.parentId ? "Create sub-goal" : "Create goal"}
+            {createGoal.isPending ? t("newGoalDialog.creating") : newGoalDefaults.parentId ? t("newGoalDialog.createSubGoal") : t("newGoalDialog.createGoal")}
           </Button>
         </div>
       </DialogContent>

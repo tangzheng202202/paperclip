@@ -1470,6 +1470,70 @@ export const translations = {
     "goalProperties.created": "创建时间",
     "goalProperties.updated": "更新时间",
     "goalProperties.none": "无",
+
+    // NewGoalDialog
+    "newGoalDialog.newSubGoal": "新建子目标",
+    "newGoalDialog.newGoal": "新建目标",
+    "newGoalDialog.noParent": "无父目标",
+    "newGoalDialog.creating": "创建中...",
+    "newGoalDialog.createSubGoal": "创建子目标",
+    "newGoalDialog.createGoal": "创建目标",
+
+    // NewIssueDialog
+    "newIssueDialog.backlog": "待办",
+    "newIssueDialog.done": "已完成",
+    "newIssueDialog.newIsolatedWorkspace": "新建隔离工作区",
+    "newIssueDialog.noCompanySelected": "未选择公司",
+    "newIssueDialog.noProject": "无项目",
+    "newIssueDialog.searchProjects": "搜索项目...",
+    "newIssueDialog.noProjectsFound": "未找到项目",
+    "newIssueDialog.searchModels": "搜索模型...",
+    "newIssueDialog.noModelsFound": "未找到模型",
+    "newIssueDialog.removeDocument": "移除文档",
+    "newIssueDialog.removeAttachment": "移除附件",
+    "newIssueDialog.creating": "创建中...",
+    "newIssueDialog.createIssue": "创建任务",
+
+    // Status labels
+    "newIssueDialog.statusBacklog": "待办",
+    "newIssueDialog.statusTodo": "待处理",
+    "newIssueDialog.statusInProgress": "进行中",
+    "newIssueDialog.statusInReview": "审核中",
+    "newIssueDialog.statusDone": "已完成",
+
+    // Priority labels
+    "newIssueDialog.priorityCritical": "严重",
+    "newIssueDialog.priorityHigh": "高",
+    "newIssueDialog.priorityMedium": "中",
+    "newIssueDialog.priorityLow": "低",
+
+    // Execution workspace modes
+    "newIssueDialog.projectDefault": "项目默认",
+    "newIssueDialog.reuseExisting": "复用现有工作区",
+
+    // InlineEntitySelector
+    "newIssueDialog.defaultModel": "默认模型",
+    "newIssueDialog.thinkingEffort": "思考力度",
+
+    // File labels
+    "newIssueDialog.documents": "文档",
+    "newIssueDialog.attachments": "附件",
+
+    // NewProjectDialog
+    "newProjectDialog.noCompanySelected": "未选择公司",
+    "newProjectDialog.creating": "创建中...",
+    "newProjectDialog.createProject": "创建项目",
+
+    // OnboardingWizard
+    "onboardingWizard.createOrSelectCompanyBeforeTesting": "在测试适配器环境之前创建或选择公司。",
+    "onboardingWizard.noOpencodeModelsDiscovered": "未发现 OpenCode 模型。请运行 `opencode models` 并认证提供商。",
+    "onboardingWizard.selectModelRequired": "选择模型（必填）",
+    "onboardingWizard.searchModels": "搜索模型...",
+    "onboardingWizard.warnings": "警告",
+
+    // OnboardingWizard status labels
+    "onboardingWizard.passed": "通过",
+    "onboardingWizard.failed": "失败",
   },
 };
 

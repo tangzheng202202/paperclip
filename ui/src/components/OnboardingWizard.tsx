@@ -327,12 +327,12 @@ export function OnboardingWizard() {
     return config;
   }
 
-  async function runAdapterEnvironmentTest(
+   async function runAdapterEnvironmentTest(
     adapterConfigOverride?: Record<string, unknown>
   ): Promise<AdapterEnvironmentTestResult | null> {
     if (!createdCompanyId) {
       setAdapterEnvError(
-        "Create or select a company before testing adapter environment."
+        t("onboardingWizard.createOrSelectCompanyBeforeTesting")
       );
       return null;
     }
@@ -422,7 +422,7 @@ export function OnboardingWizard() {
         if (!discoveredModels.some((entry) => entry.id === selectedModelId)) {
           setError(
             discoveredModels.length === 0
-              ? "No OpenCode models discovered. Run `opencode models` and authenticate providers."
+              ? t("onboardingWizard.noOpencodeModelsDiscovered")
               : `Configured OpenCode model is unavailable: ${selectedModelId}`
           );
           return;
@@ -885,8 +885,8 @@ export function OnboardingWizard() {
                                   ? selectedModel.label
                                   : model ||
                                     (adapterType === "opencode_local"
-                                      ? "Select model (required)"
-                                      : "Default")}
+                                      ? t("onboardingWizard.selectModelRequired")
+                                      : t("common.default"))}
                               </span>
                               <ChevronDown className="h-3 w-3 text-muted-foreground" />
                             </button>
@@ -897,7 +897,7 @@ export function OnboardingWizard() {
                           >
                             <input
                               className="w-full px-2 py-1.5 text-xs bg-transparent outline-none border-b border-border mb-1 placeholder:text-muted-foreground/50"
-                              placeholder="Search models..."
+                              placeholder={t("onboardingWizard.searchModels")}
                               value={modelSearch}
                               onChange={(e) => setModelSearch(e.target.value)}
                               autoFocus
@@ -1297,12 +1297,13 @@ function AdapterEnvironmentResult({
 }: {
   result: AdapterEnvironmentTestResult;
 }) {
+  const { t } = useTranslation();
   const statusLabel =
     result.status === "pass"
-      ? "Passed"
+      ? t("onboardingWizard.passed")
       : result.status === "warn"
-      ? "Warnings"
-      : "Failed";
+      ? t("onboardingWizard.warnings")
+      : t("onboardingWizard.failed");
   const statusClass =
     result.status === "pass"
       ? "text-green-700 dark:text-green-300 border-green-300 dark:border-green-500/40 bg-green-50 dark:bg-green-500/10"
