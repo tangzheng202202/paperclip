@@ -36,21 +36,26 @@ Docker note: the Docker quickstart image also uses embedded PostgreSQL by defaul
 For a full PostgreSQL server locally, use the included Docker Compose setup:
 
 ```sh
+cp .env.example .env
+# Add strong random PAPERCLIP_DB_PASSWORD and BETTER_AUTH_SECRET values to .env.
 docker compose up -d
 ```
 
-This starts PostgreSQL 17 on `localhost:5432`. Then set the connection string:
+This starts PostgreSQL 17 on `localhost:5432`. The root Compose file now
+requires `PAPERCLIP_DB_PASSWORD` and `BETTER_AUTH_SECRET` in a Git-ignored
+local `.env` file; use long random values and a URL-safe database password.
+For an existing PostgreSQL volume, changing the env value alone does not
+rotate the database role password. Plan that rotation separately. Then set
+the connection string in your local `.env` if you run the server outside Compose:
 
 ```sh
-cp .env.example .env
-# .env already contains:
-# DATABASE_URL=postgres://paperclip:paperclip@localhost:5432/paperclip
+DATABASE_URL=postgres://paperclip:REPLACE_WITH_URL_ENCODED_PASSWORD@localhost:5432/paperclip
 ```
 
 Run migrations (once the migration generation issue is fixed) or use `drizzle-kit push`:
 
 ```sh
-DATABASE_URL=postgres://paperclip:paperclip@localhost:5432/paperclip \
+DATABASE_URL=postgres://paperclip:REPLACE_WITH_URL_ENCODED_PASSWORD@localhost:5432/paperclip \
   npx drizzle-kit push
 ```
 

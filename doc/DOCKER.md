@@ -44,6 +44,13 @@ PAPERCLIP_PORT=3200 PAPERCLIP_DATA_DIR=./data/pc docker compose -f docker-compos
 
 If you change host port or use a non-local domain, set `PAPERCLIP_PUBLIC_URL` to the external URL you will use in browser/auth flows.
 
+For the Chinese fork's authenticated local setup, run `./deploy.sh`. It builds
+this checkout rather than pulling the upstream image, generates an ignored
+`data/paperclip-deploy.env` with a random auth secret on first run, and binds
+the host port to loopback by default. Check container health after startup and
+back up both that env file and the `paperclip-data` Docker volume. See
+`README.zh-CN.md` for the matching Compose commands.
+
 ## Authenticated Compose (Single Public URL)
 
 For authenticated deployments, set one canonical public URL and let Paperclip derive auth/callback defaults:

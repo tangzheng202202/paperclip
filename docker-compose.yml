@@ -3,7 +3,7 @@ services:
     image: postgres:17-alpine
     environment:
       POSTGRES_USER: paperclip
-      POSTGRES_PASSWORD: paperclip
+      POSTGRES_PASSWORD: "${PAPERCLIP_DB_PASSWORD:?Set a URL-safe PAPERCLIP_DB_PASSWORD in an ignored local .env file}"
       POSTGRES_DB: paperclip
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U paperclip -d paperclip"]
@@ -11,16 +11,16 @@ services:
       timeout: 5s
       retries: 30
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
   server:
     build: .
     ports:
-      - "3100:3100"
+      - "127.0.0.1:3100:3100"
     environment:
-      DATABASE_URL: postgres://paperclip:paperclip@db:5432/paperclip
+      DATABASE_URL: "postgres://paperclip:${PAPERCLIP_DB_PASSWORD:?Set PAPERCLIP_DB_PASSWORD}@db:5432/paperclip"
       PORT: "3100"
       SERVE_UI: "true"
       PAPERCLIP_DEPLOYMENT_MODE: "authenticated"
