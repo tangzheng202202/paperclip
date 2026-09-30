@@ -1,0 +1,26 @@
+name: Deployment config checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check deployment script syntax
+        run: bash -n deploy.sh
+
+      - name: Parse both Compose files without starting services
+        env:
+          PAPERCLIP_DB_PASSWORD: dummy-ci-only-database-password-123456
+          BETTER_AUTH_SECRET: dummy-ci-only-auth-secret-123456789012
+        run: |
+          docker compose --env-file /dev/null -f docker-compose.yml config --quiet
+          docker compose --env-file /dev/null -f docker-compose.zh-CN.yml config --quiet
