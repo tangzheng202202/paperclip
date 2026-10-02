@@ -25,7 +25,7 @@ GitHub Actions owns `pnpm-lock.yaml`.
 
 ## Release Workflow
 
-Pushes to `master` run canary verification without publishing. The manual `Release` workflow defaults to a stable dry run. To publish a canary, run it from `master` with `publish_canary=true` and `dry_run=false`; to publish a stable release, set `dry_run=false` and choose the intended `source_ref`. Both publish paths require a deliberate workflow dispatch.
+Pushes to `master` run canary verification without publishing. The manual `Release` workflow defaults to a stable dry run. To publish a canary, run it from `master` with `publish_canary=true` and `dry_run=false`; to publish a stable release, set `dry_run=false` and choose the intended `source_ref`. Stable preview and publish use the exact commit verified by the preceding job, even if a branch ref moves while the workflow runs. Both publish paths require a deliberate workflow dispatch.
 
 ## Start Dev
 
