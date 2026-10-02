@@ -21,7 +21,11 @@ GitHub Actions owns `pnpm-lock.yaml`.
 
 - Do not commit `pnpm-lock.yaml` in pull requests.
 - Pull request CI validates dependency resolution when manifests change.
-- Pushes to `master` regenerate `pnpm-lock.yaml` with `pnpm install --lockfile-only --no-frozen-lockfile`, commit it back if needed, and then run verification with `--frozen-lockfile`.
+- Run the `Refresh Lockfile` workflow manually from `master` when manifests change. It creates or updates a lockfile pull request; review and merge that PR explicitly.
+
+## Release Workflow
+
+Pushes to `master` run canary verification without publishing. The manual `Release` workflow defaults to a stable dry run. To publish a canary, run it from `master` with `publish_canary=true` and `dry_run=false`; to publish a stable release, set `dry_run=false` and choose the intended `source_ref`. Both publish paths require a deliberate workflow dispatch.
 
 ## Start Dev
 

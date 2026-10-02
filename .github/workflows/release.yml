@@ -6,6 +6,11 @@ on:
       - master
   workflow_dispatch:
     inputs:
+      publish_canary:
+        description: Explicitly publish a canary from master after verification
+        required: true
+        type: boolean
+        default: false
       source_ref:
         description: Commit SHA, branch, or tag to publish as stable
         required: true
@@ -16,10 +21,10 @@ on:
         required: false
         type: string
       dry_run:
-        description: Preview the stable release without publishing
+        description: Skip publishing; stable releases also get a dry-run preview
         required: true
         type: boolean
-        default: false
+        default: true
 
 concurrency:
   group: release-${{ github.event_name }}-${{ github.ref }}
@@ -27,7 +32,7 @@ concurrency:
 
 jobs:
   verify_canary:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish_canary && github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -63,7 +68,7 @@ jobs:
         run: pnpm build
 
   publish_canary:
-    if: github.event_name == 'push'
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_canary && !inputs.dry_run && github.ref == 'refs/heads/master'
     needs: verify_canary
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -115,7 +120,7 @@ jobs:
           git push origin "refs/tags/${tag}"
 
   verify_stable:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && !inputs.publish_canary
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -152,7 +157,7 @@ jobs:
         run: pnpm build
 
   preview_stable:
-    if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+    if: github.event_name == 'workflow_dispatch' && !inputs.publish_canary && inputs.dry_run
     needs: verify_stable
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -191,7 +196,7 @@ jobs:
           ./scripts/release.sh "${args[@]}"
 
   publish_stable:
-    if: github.event_name == 'workflow_dispatch' && !inputs.dry_run
+    if: github.event_name == 'workflow_dispatch' && !inputs.publish_canary && !inputs.dry_run
     needs: verify_stable
     runs-on: ubuntu-latest
     timeout-minutes: 45
