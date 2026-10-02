@@ -24,27 +24,35 @@ test.describe("Onboarding wizard", () => {
   test("completes full wizard flow", async ({ page }) => {
     await page.goto("/");
 
-    const wizardHeading = page.locator("h3", { hasText: "Name your company" });
-    const newCompanyBtn = page.getByRole("button", { name: "New Company" });
+    const wizardHeading = page.getByRole("heading", {
+      name: /^(Name your company|为你的公司命名)$/,
+    });
+    const onboardingEntryBtn = page.getByRole("button", {
+      name: /^(New Company|Start Onboarding)$/,
+    });
 
-    await expect(
-      wizardHeading.or(newCompanyBtn)
-    ).toBeVisible({ timeout: 15_000 });
+    await expect.poll(
+      async () =>
+        (await wizardHeading.isVisible()) || (await onboardingEntryBtn.isVisible()),
+      { timeout: 15_000 }
+    ).toBe(true);
 
-    if (await newCompanyBtn.isVisible()) {
-      await newCompanyBtn.click();
+    if (!(await wizardHeading.isVisible())) {
+      await onboardingEntryBtn.click();
     }
 
     await expect(wizardHeading).toBeVisible({ timeout: 5_000 });
 
-    const companyNameInput = page.locator('input[placeholder="Acme Corp"]');
+    const companyNameInput = page.getByPlaceholder(/^(Acme Corp|我的 AI 公司)$/);
     await companyNameInput.fill(COMPANY_NAME);
 
-    const nextButton = page.getByRole("button", { name: "Next" });
+    const nextButton = page.getByRole("button", { name: /^(Next|下一步)$/ });
     await nextButton.click();
 
     await expect(
-      page.locator("h3", { hasText: "Create your first agent" })
+      page.getByRole("heading", {
+        name: /^(Create your first agent|创建你的第一个员工)$/,
+      })
     ).toBeVisible({ timeout: 10_000 });
 
     const agentNameInput = page.locator('input[placeholder="CEO"]');
@@ -54,32 +62,38 @@ test.describe("Onboarding wizard", () => {
       page.locator("button", { hasText: "Claude Code" }).locator("..")
     ).toBeVisible();
 
-    await page.getByRole("button", { name: "More Agent Adapter Types" }).click();
+    await page.getByRole("button", {
+      name: /^(More Agent Adapter Types|更多适配器类型)$/,
+    }).click();
     await expect(page.getByRole("button", { name: "Process" })).toHaveCount(0);
 
-    await page.getByRole("button", { name: "Next" }).click();
+    await nextButton.click();
 
     await expect(
-      page.locator("h3", { hasText: "Give it something to do" })
+      page.getByRole("heading", {
+        name: /^(Give it something to do|给它分配任务)$/,
+      })
     ).toBeVisible({ timeout: 10_000 });
 
-    const taskTitleInput = page.locator(
-      'input[placeholder="e.g. Research competitor pricing"]'
+    const taskTitleInput = page.getByPlaceholder(
+      /^(e\.g\. Research competitor pricing|例如：研究竞争对手定价)$/
     );
     await taskTitleInput.clear();
     await taskTitleInput.fill(TASK_TITLE);
 
-    await page.getByRole("button", { name: "Next" }).click();
+    await nextButton.click();
 
     await expect(
-      page.locator("h3", { hasText: "Ready to launch" })
+      page.getByRole("heading", { name: /^(Ready to launch|准备启动)$/ })
     ).toBeVisible({ timeout: 10_000 });
 
     await expect(page.locator("text=" + COMPANY_NAME)).toBeVisible();
     await expect(page.locator("text=" + AGENT_NAME)).toBeVisible();
     await expect(page.locator("text=" + TASK_TITLE)).toBeVisible();
 
-    await page.getByRole("button", { name: "Create & Open Issue" }).click();
+    await page.getByRole("button", {
+      name: /^(Create & Open Issue|创建并打开任务)$/,
+    }).click();
 
     await expect(page).toHaveURL(/\/issues\//, { timeout: 10_000 });
 
